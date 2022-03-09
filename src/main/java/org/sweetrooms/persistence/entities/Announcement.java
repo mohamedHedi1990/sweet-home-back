@@ -46,6 +46,7 @@ public class Announcement {
     private String announcementMapsLongitude;
     private String announcementMapsLatitude;
     private double globalRateDate;
+    private Double announcementCost;
     @ManyToOne
     private Admin announcementAdminApprouved;
     @ManyToOne

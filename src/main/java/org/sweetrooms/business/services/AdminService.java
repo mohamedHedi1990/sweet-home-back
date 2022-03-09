@@ -17,6 +17,7 @@ public class AdminService {
     public List<Admin> getAllAdmins()
     {
         return this.adminRepository.findAll();
+
     }
 
     public Admin getAdminById(Long id)
