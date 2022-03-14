@@ -34,7 +34,7 @@ public class CountryController {
     @Operation(summary = "save country",
             description = "save a new country")
     @PostMapping("")
-    public Country saveCountry(Country country )
+    public Country saveCountry(@RequestBody Country country )
     {
         return this.countryService.saveCountry(country);
     }

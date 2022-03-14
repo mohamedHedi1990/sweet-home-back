@@ -33,7 +33,7 @@ public class AnnouncementController {
     @Operation(summary = "save announcement",
             description = "save a new announcement")
     @PostMapping("")
-    public Announcement saveAnnouncement(Announcement announcement )
+    public Announcement saveAnnouncement(@RequestBody Announcement announcement )
     {
         return this.announcementService.saveAnnouncement(announcement);
     }

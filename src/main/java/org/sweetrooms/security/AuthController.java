@@ -23,7 +23,7 @@ import org.sweetrooms.persistence.repositories.UserRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 	@Autowired
 	PasswordEncoder encoder;

@@ -1,6 +1,7 @@
 package org.sweetrooms.business.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.UserRepository;
@@ -11,6 +12,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder encoder;
 
     public List<User> getAllUsers()
     {
@@ -23,6 +26,7 @@ public class UserService {
     }
     public User saveUser(User user)
     {
+        user.setUserPassword(encoder.encode(user.getUserPassword()));
         return this.userRepository.save(user);
     }
     public void deleteUser(Long id)

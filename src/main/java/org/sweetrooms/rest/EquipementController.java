@@ -33,7 +33,7 @@ public class EquipementController {
     @Operation(summary = "Save an equipement",
             description = "save a new Equipement")
     @PostMapping("")
-    public Equipement saveEquipement(Equipement equipement )
+    public Equipement saveEquipement(@RequestBody Equipement equipement )
     {
         return this.equipementService.saveEquipement(equipement);
     }

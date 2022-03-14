@@ -32,7 +32,7 @@ public class AdminController {
     @Operation(summary = "save admin",
             description = "save a new admin")
     @PostMapping("")
-    public Admin saveAdmin(Admin admin)
+    public Admin saveAdmin(@RequestBody Admin admin)
     {
         return this.adminService.saveAdmin(admin);
     }

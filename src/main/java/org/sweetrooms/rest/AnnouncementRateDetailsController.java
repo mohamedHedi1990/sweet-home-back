@@ -34,7 +34,7 @@ public class AnnouncementRateDetailsController {
     @Operation(summary = "save announcement details",
             description = "save a new announcement details")
     @PostMapping("")
-    public AnnouncementRateDetails saveAnnouncementRateDetails(AnnouncementRateDetails announcementRateDetails )
+    public AnnouncementRateDetails saveAnnouncementRateDetails(@RequestBody AnnouncementRateDetails announcementRateDetails )
     {
         return this.announcementRateDetailsService.saveAnnouncementRateDetails(announcementRateDetails);
     }

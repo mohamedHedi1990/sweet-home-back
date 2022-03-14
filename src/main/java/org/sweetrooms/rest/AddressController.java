@@ -33,7 +33,7 @@ public class AddressController {
     @Operation(summary = "save addresse",
             description = "save a new addresses")
     @PostMapping("")
-    public Address saveAddress(Address address)
+    public Address saveAddress(@RequestBody Address address)
     {
         return this.addressService.saveAddress(address);
     }

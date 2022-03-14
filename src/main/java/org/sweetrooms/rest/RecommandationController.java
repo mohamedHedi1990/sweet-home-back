@@ -34,7 +34,7 @@ public class RecommandationController {
     @Operation(summary = "save recommandation",
             description = "save new recommandation")
     @PostMapping("")
-    public Recommandation saveRecommandation(Recommandation recommandation)
+    public Recommandation saveRecommandation(@RequestBody Recommandation recommandation)
     {
         return this.recommandationService.saveRecommandation(recommandation);
     }

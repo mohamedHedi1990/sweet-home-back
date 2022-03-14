@@ -34,7 +34,7 @@ public class ReservationController {
     @Operation(summary = "save reservation",
             description = "Save new reservation")
     @PostMapping("")
-    public Reservation saveReservation(Reservation reservation)
+    public Reservation saveReservation(@RequestBody Reservation reservation)
     {
         return this.reservationService.saveReservation(reservation);
     }

@@ -34,7 +34,7 @@ public class UserController {
     @Operation(summary = "save user",
             description = "save new user ")
     @PostMapping("")
-    public User saveUser(User user)
+    public User saveUser(@RequestBody User user)
     {
         return this.userService.saveUser(user);
     }

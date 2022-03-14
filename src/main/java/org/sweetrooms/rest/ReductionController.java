@@ -34,7 +34,7 @@ public class ReductionController {
     @Operation(summary = "save reduction",
             description = "save new reduction")
     @PostMapping("")
-    public Reduction saveReduction(Reduction reduction)
+    public Reduction saveReduction(@RequestBody Reduction reduction)
     {
         return this.reductionService.saveReduction(reduction);
     }

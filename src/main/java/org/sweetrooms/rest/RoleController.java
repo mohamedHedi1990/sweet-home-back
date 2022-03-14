@@ -33,7 +33,7 @@ public class RoleController {
     @Operation(summary = "save role",
             description = "Save role ")
     @PostMapping("")
-    public Role saveRole(Role role)
+    public Role saveRole(@RequestBody Role role)
     {
         return this.roleService.saveRole(role);
     }

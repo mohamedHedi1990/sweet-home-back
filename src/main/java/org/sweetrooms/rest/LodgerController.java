@@ -33,7 +33,7 @@ public class LodgerController {
     @Operation(summary = "save lodger",
             description = "save a new Lodger")
     @PostMapping("")
-    public Lodger saveLodger(Lodger lodger )
+    public Lodger saveLodger(@RequestBody Lodger lodger )
     {
         return this.lodgerService.saveLodger(lodger);
     }

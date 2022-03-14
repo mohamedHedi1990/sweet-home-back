@@ -33,7 +33,7 @@ public class PositionController {
     @Operation(summary = "save position",
             description = "save a new position")
     @PostMapping("")
-    public Position savePosition(Position position)
+    public Position savePosition(@RequestBody Position position)
     {
         return this.positionService.savePosition(position);
     }

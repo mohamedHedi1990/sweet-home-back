@@ -16,12 +16,11 @@ import java.util.Date;
 @AllArgsConstructor
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type")
-public abstract class User extends AuditableSql implements Serializable {
+public  class User extends AuditableSql implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String userEmail;
-    @JsonIgnore
     private String userPassword;
     private String userLogin;
     private String userFirstName;

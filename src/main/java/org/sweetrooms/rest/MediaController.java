@@ -33,7 +33,7 @@ public class MediaController {
     @Operation(summary = "save media",
             description = "save a new media")
     @PostMapping("")
-    public Media saveMedia(Media media)
+    public Media saveMedia(@RequestBody Media media)
     {
         return this.mediaService.saveMedia(media);
     }

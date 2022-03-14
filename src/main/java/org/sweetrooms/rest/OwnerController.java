@@ -33,7 +33,7 @@ public class OwnerController {
     @Operation(summary = "save owner",
             description = "save a new owner")
     @PostMapping("")
-    public Owner saveOwner(Owner owner)
+    public Owner saveOwner(@RequestBody Owner owner)
     {
         return this.ownerService.saveOwner(owner);
     }
