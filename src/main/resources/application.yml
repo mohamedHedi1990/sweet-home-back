@@ -1,0 +1,41 @@
+server:
+    port: 8099
+    servlet:
+        contextPath: /api
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        url: jdbc:mysql://localhost:3306/sweetrooms?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Africa/Tunis&useLegacyDatetimeCode=false
+        username: root
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        generate-ddl: true
+        hibernate:
+            ddl-auto: update
+            use-new-id-generator-mappings: false
+    security:
+        oauth2:
+            client:
+                registration:
+                    facebook:
+                        client-id: 967158687506915
+                        client-secret: 803559ca22a3f6b74d5269cecf740dfc
+                        scope:
+                            - email
+                            - public_profile
+                    google:
+                        client-id: 1028453501990-qdena8pchvfk54rc5fdh1oi6e9j9v7tp.apps.googleusercontent.com
+                        client-secret: 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
+
+springdoc:
+    api-docs:
+        path: /openapi/v3/api-docs
+    packagesToScan: org.sweetrooms.rest
+    pathsToMatch: /**
+    swagger-ui:
+        path: /openapi/swagger-ui.html
+sweetrooms:
+    app:
+        jwtExpirationMs: 86400000
+        jwtSecret: sweetRoomsSecretKey

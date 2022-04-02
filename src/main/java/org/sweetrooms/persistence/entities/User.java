@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sweetrooms.enumeration.Provider;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,4 +38,6 @@ public  class User extends AuditableSql implements Serializable {
     private Position userPosition;
     @ManyToOne
     private Address userAddress;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 }

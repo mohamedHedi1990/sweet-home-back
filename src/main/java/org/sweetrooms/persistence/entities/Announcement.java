@@ -1,5 +1,6 @@
 package org.sweetrooms.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Announcement {
     private Long announcementId;
     private String announcementDescription;
     private String announcementTitle;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
     private Date announcementCreatedDate;
     @Enumerated(EnumType.STRING)
     private AnnouncementStatus announcementStatus;
@@ -41,7 +43,9 @@ public class Announcement {
     private String announcementRules;
     private Integer announcementMinStay;
     private Integer announcementMaxStay;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
     private Date announcementFirstAvailableDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
     private Date announcementEndAvailableDate;
     private String announcementMapsLongitude;
     private String announcementMapsLatitude;

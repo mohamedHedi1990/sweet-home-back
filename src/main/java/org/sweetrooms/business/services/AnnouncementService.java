@@ -2,6 +2,8 @@ package org.sweetrooms.business.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.persistence.entities.Announcement;
 import org.sweetrooms.persistence.repositories.AnnouncementRepository;
 
@@ -29,5 +31,8 @@ public class AnnouncementService {
     public void deleteAnnouncement(Long id)
     {
         this.announcementRepository.deleteById(id);
+    }
+    public List<Announcement> findAnnouncementsByCriteria(AnnouncementSearchCriteria announcementSearchCriteria){
+          return this.announcementRepository.findAllByAnnouncementAddressAddressCountryCountryLabelContainingAndAnnouncementFirstAvailableDateGreaterThanEqualAndAnnouncementEndAvailableDateLessThanEqualAndAnnouncementGuestNumberEquals(announcementSearchCriteria.getAnnouncementCountryLabel(),announcementSearchCriteria.getAnnouncementStartDate(),announcementSearchCriteria.getAnnouncementEndDate(),announcementSearchCriteria.getNbGuest());
     }
 }
