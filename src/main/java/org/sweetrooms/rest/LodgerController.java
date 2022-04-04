@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.services.LodgerService;
+import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.persistence.entities.Lodger;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class LodgerController {
     @Operation(summary = "save lodger",
             description = "save a new Lodger")
     @PostMapping("")
-    public Lodger saveLodger(@RequestBody Lodger lodger )
+    public Lodger saveLodger(@RequestBody UserRequest lodger )
     {
         return this.lodgerService.saveLodger(lodger);
     }

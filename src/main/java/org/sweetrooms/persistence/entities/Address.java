@@ -18,6 +18,6 @@ public class Address {
     private String addressStreet;
     private Integer addressStreetNumber;
     private String addressCity;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Country addressCountry;
 }

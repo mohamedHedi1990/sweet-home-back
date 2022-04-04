@@ -26,11 +26,11 @@ public class Announcement {
     private Date announcementCreatedDate;
     @Enumerated(EnumType.STRING)
     private AnnouncementStatus announcementStatus;
-    private Integer announcementNumberLike;
-    private Integer announcementNumberDislike;
+    private Integer announcementNumberLike = 0;
+    private Integer announcementNumberDislike = 0;
     @Enumerated(EnumType.STRING)
     private AnnouncementType announcementType;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address announcementAddress;
     private Integer announcementGuestNumber;
     private Integer announcementBedNumber;
@@ -43,17 +43,19 @@ public class Announcement {
     private String announcementRules;
     private Integer announcementMinStay;
     private Integer announcementMaxStay;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
+    @Temporal(TemporalType.DATE)
     private Date announcementFirstAvailableDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
+    @Temporal(TemporalType.DATE)
     private Date announcementEndAvailableDate;
     private String announcementMapsLongitude;
     private String announcementMapsLatitude;
-    private double globalRateDate;
+    private double globalRate = 0.0;
     private Double announcementCost;
     @ManyToOne
     private Admin announcementAdminApprouved;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Owner announcementOwnerPublished;
     @ManyToOne
     private Lodger announcementLodgerInteracted;

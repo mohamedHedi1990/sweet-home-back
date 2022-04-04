@@ -16,5 +16,5 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @DiscriminatorValue("owner")
 public class Owner extends User {
-    private double ownerRate;
+    private double ownerRate = 0.0;
 }

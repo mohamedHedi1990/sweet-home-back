@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 import org.sweetrooms.persistence.entities.Country;
 @Repository
 public interface CountryRepository  extends JpaRepository<Country,Long> {
+	Country findByCountryCode(String countryCode);
 }

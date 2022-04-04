@@ -1,16 +1,29 @@
 package org.sweetrooms.business.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.sweetrooms.persistence.entities.Lodger;
-import org.sweetrooms.persistence.repositories.LodgerRepository;
-
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.sweetrooms.business.mappers.AddressMapper;
+import org.sweetrooms.client.dtos.request.UserRequest;
+import org.sweetrooms.enumeration.RoleCode;
+import org.sweetrooms.persistence.entities.Lodger;
+import org.sweetrooms.persistence.entities.Role;
+import org.sweetrooms.persistence.repositories.LodgerRepository;
+import org.sweetrooms.persistence.repositories.RoleRepository;
 
 @Service
 public class LodgerService {
     @Autowired
     LodgerRepository lodgerRepository;
+    
+    @Autowired
+	private RoleRepository roleRepository;
+    
+    @Autowired
+    PasswordEncoder encoder;
 
     public List<Lodger> getAllLodgers()
     {
@@ -21,8 +34,22 @@ public class LodgerService {
     {
         return this.lodgerRepository.getById(id);
     }
-    public Lodger saveLodger(Lodger lodger)
+    public Lodger saveLodger(UserRequest lodgerIn)
     {
+    	Lodger lodger = new Lodger();
+    	lodger.setProvider(lodgerIn.getProvider());
+    	lodger.setUserAddress(AddressMapper.toAddress(lodgerIn.getUserAddress()));
+    	lodger.setUserBirthDate(lodgerIn.getUserBirthDate());
+    	lodger.setUserEmail(lodgerIn.getUserEmail());
+    	lodger.setUserFirstName(lodgerIn.getUserFirstName());
+    	lodger.setUserLastName(lodgerIn.getUserLastName());
+    	lodger.setUserLogin(lodger.getUserLogin());
+    	lodger.setUserPassword(encoder.encode(lodgerIn.getUserPassword()));
+    	
+    	Role lodgerRole = this.roleRepository.findByRoleCode(RoleCode.LODGER);
+    	lodger.setUserRole(lodgerRole);
+    	lodger.setUserIsActif(true);
+    	lodger.setUserDateInscription(new Date());
         return this.lodgerRepository.save(lodger);
     }
     public void deleteLodger(Long id)
