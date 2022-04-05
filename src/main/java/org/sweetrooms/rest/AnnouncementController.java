@@ -3,6 +3,7 @@ package org.sweetrooms.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class AnnouncementController {
     @Operation(summary = "save announcement",
             description = "save a new announcement")
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority({'OWNER'})")
     public Announcement saveAnnouncement(@RequestParam("ownerId") Long ownerId, @RequestBody AnnouncementRequest announcement) {
         return this.announcementService.saveAnnouncement(announcement, ownerId);
     }
@@ -52,6 +54,7 @@ public class AnnouncementController {
     @Operation(summary = "delete announcement",
             description = "delete announcement by specific ID")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority({'OWNER'})")
     public void deleteAnnouncement(@PathVariable(name = "id") Long id) {
         this.announcementService.deleteAnnouncement(id);
     }

@@ -54,8 +54,9 @@ public class SweetroomsApplication implements CommandLineRunner {
     		tnCountry = new Country();
     		tnCountry.setCountryCode("TN");
     		tnCountry.setCountryLabel("Tunisie");
-    		this.roleRepository.save(ownerRole);
+    		this.countryRepository.save(tnCountry);
     	}
+    	
     	
     }
 
