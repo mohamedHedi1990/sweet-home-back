@@ -1,22 +1,39 @@
 package org.sweetrooms.persistence.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.AnnouncementType;
 import org.sweetrooms.enumeration.BedType;
 
-import javax.persistence.*;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "sweet_rooms_announcement")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Announcement {
+public class Announcement extends AuditableSql implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long announcementId;
@@ -61,6 +78,8 @@ public class Announcement {
     private Lodger announcementLodgerInteracted;
     @ManyToOne
     private Reduction announcementReduction;
+    @OneToMany(cascade = CascadeType.MERGE)
+    private List<Media> announcementMedias = new ArrayList<>();
 
 
 

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnnouncementSearchCriteria {
-    String announcementCountryLabel;
+    String announcementCityLabel;
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Africa/Tunis")
     Date announcementStartDate;
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Africa/Tunis")

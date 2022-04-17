@@ -17,8 +17,9 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mediaId;
     private String mediaLabel;
-    private Double mediaSize;
+    private Long mediaSize;
     private String mediaUrl;
+    private String mediaContentType;
     @Enumerated(EnumType.STRING)
     private MediaContext mediaContext;
 }

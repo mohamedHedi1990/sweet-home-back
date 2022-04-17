@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement,Long> {
-    List<Announcement> findAllByAnnouncementAddressAddressCountryCountryLabelContainingAndAnnouncementFirstAvailableDateGreaterThanEqualAndAnnouncementEndAvailableDateLessThanEqualAndAnnouncementGuestNumberEqualsAndAnnouncementType(String labelCountry, Date startDate, Date endDate, Integer nbGuest,
-    		AnnouncementType announcementType);
-
+    List<Announcement> findAllByAnnouncementAddressAddressCityCityLabelContainingAndAnnouncementFirstAvailableDateGreaterThanEqualAndAnnouncementEndAvailableDateLessThanEqualAndAnnouncementGuestNumberEquals(String labelCountry, Date startDate, Date endDate, Integer nbGuest);
+    List<Announcement> findTop12ByOrderByCreatedAtDesc();
 }

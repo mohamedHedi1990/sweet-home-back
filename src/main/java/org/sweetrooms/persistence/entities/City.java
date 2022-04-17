@@ -1,6 +1,5 @@
 package org.sweetrooms.persistence.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,17 +12,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sweet_rooms_address")
+@Table(name = "sweet_rooms_city")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long addressId;
-    private String addressStreet;
-    private Integer addressStreetNumber;
-    //private String addressCity;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private City addressCity;
+    private Long cityId;
+    private String cityLabel;
+    private String cityCode;
+    @ManyToOne
+    private Country country;
 }

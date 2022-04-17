@@ -1,5 +1,5 @@
 server:
-    port: 8099
+    port: 2222
     servlet:
         contextPath: /api
 spring:
@@ -39,3 +39,5 @@ sweetrooms:
     app:
         jwtExpirationMs: 86400000
         jwtSecret: sweetRoomsSecretKey
+file:
+  upload-dir: C:/Users/msi/Documents/imcoding/cash-forecast/files
