@@ -3,6 +3,9 @@ package org.sweetrooms.business.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.sweetrooms.client.dtos.request.UserRequest;
+import org.sweetrooms.enumeration.RoleCode;
+import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.UserRepository;
 
@@ -14,6 +17,12 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder encoder;
+    
+    @Autowired
+    private LodgerService lodgerService;
+    
+    @Autowired
+    private OwnerService ownerService;
 
     public List<User> getAllUsers()
     {
@@ -33,4 +42,13 @@ public class UserService {
     {
         this.userRepository.deleteById(id);
     }
+
+	public void saveUser(UserRequest user) {
+		if(user.getUserType() == RoleCode.OWNER) {
+			this.ownerService.saveOwner(user);
+		} else if(user.getUserType() == RoleCode.LODGER) {
+			this.lodgerService.saveLodger(user);
+		}
+	
+	}
 }

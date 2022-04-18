@@ -38,7 +38,7 @@ public class LodgerService {
     {
     	Lodger lodger = new Lodger();
     	lodger.setProvider(lodgerIn.getProvider());
-    	lodger.setUserAddress(AddressMapper.toAddress(lodgerIn.getUserAddress()));
+    	lodger.setUserAddress(lodgerIn.getUserAddress() != null ? AddressMapper.toAddress(lodgerIn.getUserAddress()) : null);
     	lodger.setUserBirthDate(lodgerIn.getUserBirthDate());
     	lodger.setUserEmail(lodgerIn.getUserEmail());
     	lodger.setUserFirstName(lodgerIn.getUserFirstName());

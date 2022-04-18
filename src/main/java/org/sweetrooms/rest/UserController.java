@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.services.UserService;
+import org.sweetrooms.client.dtos.request.UserRequest;
+import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 
 import java.util.List;
@@ -32,11 +34,11 @@ public class UserController {
         return this.userService.getUserById(id);
     }
     @Operation(summary = "save user",
-            description = "save new user ")
+            description = "save a new user")
     @PostMapping("")
-    public User saveUser(@RequestBody User user)
+    public void saveOwner(@RequestBody UserRequest user)
     {
-        return this.userService.saveUser(user);
+        this.userService.saveUser(user);
     }
     @Operation(summary = "Delete user",
             description = "Delete user by ID")

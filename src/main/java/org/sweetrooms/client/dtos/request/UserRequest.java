@@ -3,6 +3,7 @@ package org.sweetrooms.client.dtos.request;
 import java.util.Date;
 
 import org.sweetrooms.enumeration.Provider;
+import org.sweetrooms.enumeration.RoleCode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,4 +24,5 @@ public class UserRequest {
 	private Date userBirthDate;
 	private AddressRequest userAddress;
 	private Provider provider;
+	private RoleCode userType;
 }

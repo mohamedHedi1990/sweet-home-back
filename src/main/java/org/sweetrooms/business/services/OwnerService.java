@@ -39,7 +39,7 @@ public class OwnerService {
     {
     	Owner owner = new Owner();
     	owner.setProvider(ownerIn.getProvider());
-    	owner.setUserAddress(AddressMapper.toAddress(ownerIn.getUserAddress()));
+    	owner.setUserAddress(ownerIn.getUserAddress() != null ? AddressMapper.toAddress(ownerIn.getUserAddress()) : null);
     	owner.setUserBirthDate(ownerIn.getUserBirthDate());
     	owner.setUserEmail(ownerIn.getUserEmail());
     	owner.setUserFirstName(ownerIn.getUserFirstName());
