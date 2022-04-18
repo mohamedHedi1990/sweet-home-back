@@ -12,6 +12,7 @@ public class AnnouncementMapper {
 				AddressMapper.toAddressDto(announcement.getAnnouncementAddress()),
 				announcement.getAnnouncementBedNumber(), announcement.getAnnouncementRoomNumber(),
 				announcement.getAnnouncementBathRoomNumber(), announcement.getGlobalRate(),
-				announcement.getAnnouncementCost(), UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()), null);
+				announcement.getAnnouncementCost(), UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()),
+				!announcement.getAnnouncementMedias().isEmpty() ? announcement.getAnnouncementMedias().get(0).getMediaUrl() : null);
 	}
 }
