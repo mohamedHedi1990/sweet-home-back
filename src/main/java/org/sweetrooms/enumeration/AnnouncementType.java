@@ -1,5 +1,8 @@
 package org.sweetrooms.enumeration;
 
 public enum AnnouncementType {
-    HOUSE,APPARTMENT,STAGE,VILLA
+    HOUSE, //Logement entier
+    APPARTMENT,//Appartment
+    STAGE,// Etage entiére
+    VILLA // Villa
 }
