@@ -38,9 +38,9 @@ public class FileController {
 	private MediaService mediaService;
 
 	@CrossOrigin
-	@PostMapping("/post-media/{context}/{contextId}")
+	@PostMapping("/post-media/{context}")
 	public void uploadLogoFile(@RequestParam("file") MultipartFile[] files,
-			@PathVariable("context") MediaContext context, @PathVariable("contextId") Long contextId) {
+			@PathVariable("context") MediaContext context, @RequestParam(value="contextId", required = false) Long contextId) {
 
 		Arrays.stream(files).forEach(file -> {
 

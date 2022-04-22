@@ -27,6 +27,9 @@ spring:
                     google:
                         client-id: 1028453501990-qdena8pchvfk54rc5fdh1oi6e9j9v7tp.apps.googleusercontent.com
                         client-secret: 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
+    servlet:      
+        multipart:
+            max-file-size: 2000MB               
 
 springdoc:
     api-docs:
