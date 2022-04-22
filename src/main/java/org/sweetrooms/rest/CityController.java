@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/city")
 @Tag(description = "Restfull APIs for City",name = "City ressource")
 public class CityController {
@@ -52,5 +52,11 @@ public class CityController {
     public void deleteCity(@PathVariable(name = "id")Long id)
     {
         this.cityService.deleteCity(id);
+    }
+
+    @Operation(summary = "get City by Country ID")
+    @GetMapping("/getCityByCountryId/{coutryId}")
+    public List<City> getCityByCountryId(@PathVariable(name = "coutryId") Long coutryId){
+        return this.cityService.getCityByCountryId(coutryId);
     }
 }

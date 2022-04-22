@@ -43,12 +43,15 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
 
-	public void saveUser(UserRequest user) {
+	public Boolean saveUser(UserRequest user) {
+        System.out.println("UserRequest : "+user.toString());
 		if(user.getUserType() == RoleCode.OWNER) {
-			this.ownerService.saveOwner(user);
+			return this.ownerService.saveOwner(user);
 		} else if(user.getUserType() == RoleCode.LODGER) {
-			this.lodgerService.saveLodger(user);
+			return this.lodgerService.saveLodger(user);
 		}
+
+		return false;
 	
 	}
 }

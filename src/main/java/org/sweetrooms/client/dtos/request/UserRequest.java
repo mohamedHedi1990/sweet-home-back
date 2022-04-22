@@ -2,6 +2,7 @@ package org.sweetrooms.client.dtos.request;
 
 import java.util.Date;
 
+import lombok.ToString;
 import org.sweetrooms.enumeration.Provider;
 import org.sweetrooms.enumeration.RoleCode;
 
@@ -14,7 +15,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UserRequest {
+
+    private Long userId;
 	private String userEmail;
 	private String userPassword;
 	private String userLogin;

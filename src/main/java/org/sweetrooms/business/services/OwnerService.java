@@ -35,9 +35,10 @@ public class OwnerService {
     {
         return this.ownerRepository.getById(id);
     }
-    public Owner saveOwner(UserRequest ownerIn)
+    public Boolean saveOwner(UserRequest ownerIn)
     {
     	Owner owner = new Owner();
+    	owner.setUserId(ownerIn.getUserId());
     	owner.setProvider(ownerIn.getProvider());
     	owner.setUserAddress(ownerIn.getUserAddress() != null ? AddressMapper.toAddress(ownerIn.getUserAddress()) : null);
     	owner.setUserBirthDate(ownerIn.getUserBirthDate());
@@ -51,7 +52,14 @@ public class OwnerService {
     	owner.setUserRole(lodgerRole);
     	owner.setUserIsActif(true);
     	owner.setUserDateInscription(new Date());
-        return this.ownerRepository.save(owner);
+        System.out.println("Lodger to save : "+owner);
+        try {
+            this.ownerRepository.save(owner);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public void deleteOwner(Long id)
     {

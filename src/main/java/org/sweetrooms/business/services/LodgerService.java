@@ -34,23 +34,31 @@ public class LodgerService {
     {
         return this.lodgerRepository.getById(id);
     }
-    public Lodger saveLodger(UserRequest lodgerIn)
+    public Boolean saveLodger(UserRequest lodgerIn)
     {
     	Lodger lodger = new Lodger();
+    	lodger.setUserId(lodgerIn.getUserId());
     	lodger.setProvider(lodgerIn.getProvider());
     	lodger.setUserAddress(lodgerIn.getUserAddress() != null ? AddressMapper.toAddress(lodgerIn.getUserAddress()) : null);
     	lodger.setUserBirthDate(lodgerIn.getUserBirthDate());
     	lodger.setUserEmail(lodgerIn.getUserEmail());
     	lodger.setUserFirstName(lodgerIn.getUserFirstName());
     	lodger.setUserLastName(lodgerIn.getUserLastName());
-    	lodger.setUserLogin(lodger.getUserLogin());
+    	lodger.setUserLogin(lodgerIn.getUserLogin());
     	lodger.setUserPassword(encoder.encode(lodgerIn.getUserPassword()));
     	
     	Role lodgerRole = this.roleRepository.findByRoleCode(RoleCode.LODGER);
     	lodger.setUserRole(lodgerRole);
     	lodger.setUserIsActif(true);
     	lodger.setUserDateInscription(new Date());
-        return this.lodgerRepository.save(lodger);
+        System.out.println("Lodger to save : "+lodger.getUserLogin()+ " "+lodger.getUserAddress());
+        try {
+            this.lodgerRepository.save(lodger);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public void deleteLodger(Long id)
     {

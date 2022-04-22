@@ -47,4 +47,11 @@ public class UserController {
     {
         this.userService.deleteUser(id);
     }
+
+    @Operation(description = "Just for test")
+    @GetMapping("/AnyUser")
+    public User getAnyUser(){
+        return userService.getAllUsers().get(0);
+
+    }
 }
