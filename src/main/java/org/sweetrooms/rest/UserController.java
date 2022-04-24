@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.services.UserService;
 import org.sweetrooms.client.dtos.request.UserRequest;
-import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 
 import java.util.List;
@@ -46,5 +45,12 @@ public class UserController {
     public void deleteUser(@PathVariable(name = "id")Long id)
     {
         this.userService.deleteUser(id);
+    }
+
+    @Operation(summary = "Get Connected user Details",
+    description = "Provides connected user")
+@GetMapping("/main-profile")
+    public User getConnectedUser(){
+        return this.userService.getConnectedUser();
     }
 }

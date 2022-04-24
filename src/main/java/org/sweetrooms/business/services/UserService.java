@@ -1,14 +1,14 @@
 package org.sweetrooms.business.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.enumeration.RoleCode;
-import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.UserRepository;
-
+import org.sweetrooms.security.UserDetailsImpl;
 import java.util.List;
 
 @Service
@@ -51,4 +51,9 @@ public class UserService {
 		}
 	
 	}
+    public User getConnectedUser(){
+        long id=((UserDetailsImpl) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getId();
+   User user=getUserById(id);
+   return user;
+    }
 }
