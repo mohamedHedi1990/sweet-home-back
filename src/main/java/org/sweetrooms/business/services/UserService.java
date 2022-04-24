@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.enumeration.RoleCode;
+import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.UserRepository;
 import org.sweetrooms.security.UserDetailsImpl;
@@ -53,7 +54,8 @@ public class UserService {
 	}
     public User getConnectedUser(){
         long id=((UserDetailsImpl) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getId();
-   User user=getUserById(id);
-   return user;
+   
+        User user=lodgerService.getLodgerById(id);
+        return user;
     }
 }
