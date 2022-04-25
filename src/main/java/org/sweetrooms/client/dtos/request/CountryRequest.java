@@ -1,10 +1,5 @@
 package org.sweetrooms.client.dtos.request;
 
-import java.util.Date;
-
-import org.sweetrooms.enumeration.AnnouncementType;
-import org.sweetrooms.enumeration.BedType;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

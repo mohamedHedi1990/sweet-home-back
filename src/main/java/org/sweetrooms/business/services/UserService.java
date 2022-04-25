@@ -54,8 +54,9 @@ public class UserService {
 	}
     public User getConnectedUser(){
         long id=((UserDetailsImpl) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getId();
-   
-        User user=lodgerService.getLodgerById(id);
+        User user=null;
+        user=lodgerService.getLodgerById(id);
+        if(user==null)user=this.ownerService.getOwnerById(id);
         return user;
     }
 }

@@ -13,7 +13,9 @@ import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.persistence.entities.Announcement;
+import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
+import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.AnnouncementRepository;
 import org.sweetrooms.persistence.repositories.OwnerRepository;
 
@@ -24,6 +26,8 @@ public class AnnouncementService {
 
 	@Autowired
 	private OwnerRepository ownerRepository;
+	@Autowired
+	private UserService userService; 
 
 	public List<Announcement> getAllAnnouncements() {
 
@@ -38,6 +42,18 @@ public class AnnouncementService {
 		return this.announcementRepository.save(announcement);
 	}
 
+	public List<AnnouncementResponse> getMyAnnoucements(){
+		User user=userService.getConnectedUser();
+		if(user instanceof Lodger lodger)return this.announcementRepository.findByAnnouncementLodgerInteracted(lodger).stream()
+				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+				.collect(Collectors.toList());
+		else {
+			return this.announcementRepository.findByAnnouncementOwnerPublished(((Owner)user)).stream()
+					.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+					.collect(Collectors.toList());
+		}
+		
+	}
 	public Announcement saveAnnouncement(AnnouncementRequest announcementIn, Long ownerId) {
 		Owner owner = this.ownerRepository.findByUserId(ownerId);
 		if (owner != null) {
