@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.sweetrooms.business.mappers.AnnouncementMapper;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
@@ -68,5 +67,9 @@ public class AnnouncementController {
 	@GetMapping("/last-published")
 	public List<AnnouncementResponse> findLastAnnouncements() {
 		return this.announcementService.findLastAnnouncements();
+	}
+	@GetMapping("/my-Announcements")
+	public List<AnnouncementResponse> findMyAnnouncements() {
+		return this.announcementService.getMyAnnoucements();
 	}
 }
