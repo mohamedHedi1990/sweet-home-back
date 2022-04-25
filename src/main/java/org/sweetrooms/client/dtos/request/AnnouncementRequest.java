@@ -2,6 +2,7 @@ package org.sweetrooms.client.dtos.request;
 
 import java.util.Date;
 
+import org.sweetrooms.dtos.AddressDto;
 import org.sweetrooms.enumeration.AnnouncementType;
 import org.sweetrooms.enumeration.BedType;
 
@@ -17,7 +18,7 @@ public class AnnouncementRequest {
 	private String announcementDescription;
 	private String announcementTitle;
 	private AnnouncementType announcementType;
-	private AddressRequest announcementAddress;
+	private AddressDto announcementAddress;
 	private Integer announcementGuestNumber;
 	private Integer announcementBedNumber;
 	private Integer announcementRoomNumber;

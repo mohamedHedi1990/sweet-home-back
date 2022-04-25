@@ -24,13 +24,13 @@ public class ReservationController {
     {
         return this.reservationService.getAllReservations();
     }
-    @Operation(summary = "Get My reservations",
+    /*@Operation(summary = "Get My reservations",
             description = "Provides  reservation list of Connected User")
-    @GetMapping("My-Reservations")
+    @GetMapping("my-reservations")
     public List<Reservation> getMyReservations()
     {
         return this.reservationService.getMyReservations() ;
-    }
+    }*/
     @Operation(summary = "Get reservation",
             description = "Provides reservation by ID")
     @GetMapping("/{id}")

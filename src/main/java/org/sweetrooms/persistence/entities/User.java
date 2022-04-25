@@ -39,6 +39,7 @@ public  class User extends AuditableSql implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String userEmail;
+    private String userPhoneNumber;
     private String userPassword;
     private String userLogin;
     private String userFirstName;

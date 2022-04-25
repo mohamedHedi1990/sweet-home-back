@@ -68,7 +68,7 @@ public class AnnouncementController {
 	public List<AnnouncementResponse> findLastAnnouncements() {
 		return this.announcementService.findLastAnnouncements();
 	}
-	@GetMapping("/my-Announcements")
+	@GetMapping("/my-announcements")
 	public List<AnnouncementResponse> findMyAnnouncements() {
 		return this.announcementService.getMyAnnoucements();
 	}

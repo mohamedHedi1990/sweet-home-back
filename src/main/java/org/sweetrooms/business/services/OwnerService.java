@@ -45,6 +45,7 @@ public class OwnerService {
     	owner.setUserLastName(ownerIn.getUserLastName());
     	owner.setUserLogin(ownerIn.getUserLogin());
     	owner.setUserPassword(encoder.encode(ownerIn.getUserPassword()));
+    	owner.setUserPhoneNumber(ownerIn.getUserPhoneNumber());
     	
     	Role lodgerRole = this.roleRepository.findByRoleCode(RoleCode.OWNER);
     	owner.setUserRole(lodgerRole);
