@@ -10,5 +10,4 @@ import org.sweetrooms.persistence.entities.Reservation;
 @Repository
 public interface ReservationRepository  extends JpaRepository<Reservation,Long> {
 List<Reservation> findByReservationLodger(Lodger reservationLodger);
-List<Reservation> findByReservationOwner(Owner reservationOwner);
 }
