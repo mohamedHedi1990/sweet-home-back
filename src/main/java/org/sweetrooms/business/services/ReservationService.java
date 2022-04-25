@@ -36,7 +36,7 @@ public class ReservationService {
     public List<Reservation> getMyReservations()
     {
     	
-		User user=userService.getConnectedUser();
+		User user=userService.getCurrentUser();
 		if(user instanceof Lodger lodger)return this.reservationRepository.findByReservationLodger(lodger);
 		else {
 			return this.reservationRepository.findByReservationOwner
