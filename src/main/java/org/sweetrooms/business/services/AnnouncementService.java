@@ -12,6 +12,7 @@ import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
+import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.Announcement;
 import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
@@ -27,7 +28,7 @@ public class AnnouncementService {
 	@Autowired
 	private OwnerRepository ownerRepository;
 	@Autowired
-	private UserService userService; 
+	private UserService userService;
 
 	public List<Announcement> getAllAnnouncements() {
 
@@ -37,23 +38,28 @@ public class AnnouncementService {
 	public Announcement getAnnouncementById(Long id) {
 		return this.announcementRepository.getById(id);
 	}
-	
+
 	public Announcement save(Announcement announcement) {
 		return this.announcementRepository.save(announcement);
 	}
 
-	public List<AnnouncementResponse> getMyAnnoucements(){
-		User user=userService.getConnectedUser();
-		if(user instanceof Lodger lodger)return this.announcementRepository.findByAnnouncementLodgerInteracted(lodger).stream()
-				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
-				.collect(Collectors.toList());
-		else {
-			return this.announcementRepository.findByAnnouncementOwnerPublished(((Owner)user)).stream()
+	public List<AnnouncementResponse> getMyAnnoucements() {
+		User user = userService.getCurrentUser();
+		if (user.getUserRole().getRoleCode() == RoleCode.OWNER) {
+			return this.announcementRepository.findByAnnouncementOwnerPublished(((Owner) user)).stream()
+					.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+					.collect(Collectors.toList());
+		} else if (user.getUserRole().getRoleCode() == RoleCode.LODGER) {
+			return this.announcementRepository.findByAnnouncementLodgerInteracted((Lodger) user).stream()
 					.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
 					.collect(Collectors.toList());
 		}
-		
+		return this.announcementRepository.findAll().stream()
+				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+				.collect(Collectors.toList());
+
 	}
+
 	public Announcement saveAnnouncement(AnnouncementRequest announcementIn, Long ownerId) {
 		Owner owner = this.ownerRepository.findByUserId(ownerId);
 		if (owner != null) {
@@ -87,13 +93,14 @@ public class AnnouncementService {
 		this.announcementRepository.deleteById(id);
 	}
 
-	public List<AnnouncementResponse> findAnnouncementsByCriteria(AnnouncementSearchCriteria announcementSearchCriteria) {
+	public List<AnnouncementResponse> findAnnouncementsByCriteria(
+			AnnouncementSearchCriteria announcementSearchCriteria) {
 		return this.announcementRepository
 				.findAllByAnnouncementAddressAddressCityCityLabelContainingAndAnnouncementFirstAvailableDateGreaterThanEqualAndAnnouncementEndAvailableDateLessThanEqualAndAnnouncementGuestNumberEquals(
 						announcementSearchCriteria.getAnnouncementCityLabel(),
 						announcementSearchCriteria.getAnnouncementStartDate(),
-						announcementSearchCriteria.getAnnouncementEndDate(), announcementSearchCriteria.getNbGuest()).stream()
-				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+						announcementSearchCriteria.getAnnouncementEndDate(), announcementSearchCriteria.getNbGuest())
+				.stream().map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
 				.collect(Collectors.toList());
 	}
 

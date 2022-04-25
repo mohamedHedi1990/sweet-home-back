@@ -43,9 +43,9 @@ public class LodgerService {
     	lodger.setUserEmail(lodgerIn.getUserEmail());
     	lodger.setUserFirstName(lodgerIn.getUserFirstName());
     	lodger.setUserLastName(lodgerIn.getUserLastName());
-    	lodger.setUserLogin(lodger.getUserLogin());
+    	lodger.setUserLogin(lodgerIn.getUserLogin());
     	lodger.setUserPassword(encoder.encode(lodgerIn.getUserPassword()));
-    	
+    	lodger.setUserPhoneNumber(lodgerIn.getUserPhoneNumber());
     	Role lodgerRole = this.roleRepository.findByRoleCode(RoleCode.LODGER);
     	lodger.setUserRole(lodgerRole);
     	lodger.setUserIsActif(true);
