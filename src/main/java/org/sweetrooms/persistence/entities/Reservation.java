@@ -25,5 +25,5 @@ public class Reservation {
     @ManyToOne
     private Lodger reservationLodger;
     @ManyToOne
-    private Owner reservationOwner;
+    private Announcement reservationAnnouncmeent;
 }
