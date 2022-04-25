@@ -2,7 +2,6 @@ package org.sweetrooms.business.services;
 
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,41 +15,39 @@ import org.sweetrooms.persistence.repositories.MediaRepository;
 public class MediaService {
     @Autowired
     MediaRepository mediaRepository;
-    
-    @Autowired
-	private DBFileStorageService dBFileStorageService;
 
-    public List<Media> getAllMedias()
-    {
+    @Autowired
+    private DBFileStorageService dBFileStorageService;
+
+    public List<Media> getAllMedias() {
         return this.mediaRepository.findAll();
     }
 
-    public Media getMediaById(Long id)
-    {
+    public Media getMediaById(Long id) {
         return this.mediaRepository.getById(id);
     }
-    public Media saveMedia(Media media)
-    {
+
+    public Media saveMedia(Media media) {
         return this.mediaRepository.save(media);
     }
-    public void deleteMedia(Long id)
-    {
+
+    public void deleteMedia(Long id) {
         this.mediaRepository.deleteById(id);
     }
-    
+
     public Media saveMedia(MultipartFile file, MediaContext context) throws Exception {
-	
-		String mediaName = dBFileStorageService.storeFile(file);
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/file/downloadFile/")
-				.path(mediaName).toUriString();
-		
-		Media media = new Media();
-		media.setMediaContext(context);
-		media.setMediaUrl(fileDownloadUri);
-		media.setMediaLabel(mediaName);
-		media.setMediaSize(file.getSize());
+
+        String mediaName = dBFileStorageService.storeFile(file);
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/file/downloadFile/")
+                .path(mediaName).toUriString();
+
+        Media media = new Media();
+        media.setMediaContext(context);
+        media.setMediaUrl(fileDownloadUri);
+        media.setMediaLabel(mediaName);
+        media.setMediaSize(file.getSize());
         media.setMediaContentType(file.getContentType());
-        media =  mediaRepository.save(media);
+        media = mediaRepository.save(media);
         return media;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.enumeration.RoleCode;
-import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.Role;
 import org.sweetrooms.persistence.repositories.OwnerRepository;
