@@ -1,7 +1,23 @@
 package org.sweetrooms.business.mappers;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
+import org.sweetrooms.dtos.AddressDto;
+import org.sweetrooms.dtos.UserDto;
+import org.sweetrooms.enumeration.AnnouncementType;
+import org.sweetrooms.enumeration.BedType;
 import org.sweetrooms.persistence.entities.Announcement;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class AnnouncementMapper {
 
@@ -14,5 +30,31 @@ public class AnnouncementMapper {
 				announcement.getAnnouncementBathRoomNumber(), announcement.getGlobalRate(),
 				announcement.getAnnouncementCost(), UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()),
 				!announcement.getAnnouncementMedias().isEmpty() ? announcement.getAnnouncementMedias().get(0).getMediaUrl() : null);
+	}
+	
+	public static AnnouncementDetailsResponse toAnnouncementDetailsResponse(Announcement announcement) {
+		
+		List<String > listofPictures=announcement.getAnnouncementMedias().stream()
+				.map(x -> x.getMediaUrl()).collect(Collectors.toList());
+				
+		return new AnnouncementDetailsResponse(announcement.getAnnouncementId(), announcement.getAnnouncementTitle(), announcement.getAnnouncementDescription(), 
+				announcement.getAnnouncementCreatedDate(),
+		announcement.getAnnouncementBedType(),
+		announcement.getAnnouncementAuthorizedExtraGuests(),
+		announcement.getAnnouncementSummary(),
+		announcement.getAnnouncementRules(),
+		announcement.getAnnouncementType(),
+		AddressMapper.toAddressDto(announcement.getAnnouncementAddress()),
+		announcement.getAnnouncementBedNumber(),
+		announcement.getAnnouncementRoomNumber(),
+		announcement.getAnnouncementBathRoomNumber(),
+		announcement.getGlobalRate() ,
+		announcement.getAnnouncementCost(),
+		UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()),
+		listofPictures,
+		announcement.getAnnouncementMinStay(),
+		announcement.getAnnouncementMaxStay(),
+		announcement.getAnnouncementFirstAvailableDate(),
+		announcement.getAnnouncementEndAvailableDate());
 	}
 }
