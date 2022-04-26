@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.AnnouncementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
@@ -38,7 +39,9 @@ public class AnnouncementService {
 	public Announcement getAnnouncementById(Long id) {
 		return this.announcementRepository.getById(id);
 	}
-
+	public AnnouncementDetailsResponse getAnnouncementDetailsById(Long id) {
+		return AnnouncementMapper.toAnnouncementDetailsResponse(getAnnouncementById(id));
+	}
 	public Announcement save(Announcement announcement) {
 		return this.announcementRepository.save(announcement);
 	}

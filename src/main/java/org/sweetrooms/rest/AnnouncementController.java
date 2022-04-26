@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.persistence.entities.Announcement;
@@ -41,6 +42,11 @@ public class AnnouncementController {
 	@GetMapping("/{id}")
 	public Announcement getAnnouncementById(@PathVariable(name = "id") Long id) {
 		return this.announcementService.getAnnouncementById(id);
+	}
+	@Operation(summary = "Get announcement", description = "Get announcement by ID")
+	@GetMapping("/details/{id}")
+	public AnnouncementDetailsResponse getAnnouncementDetailsById(@PathVariable(name = "id") Long id) {
+		return this.announcementService.getAnnouncementDetailsById(id);
 	}
 
 	@Operation(summary = "save announcement", description = "save a new announcement")
