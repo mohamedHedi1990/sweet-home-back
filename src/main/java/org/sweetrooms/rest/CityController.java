@@ -3,14 +3,7 @@ package org.sweetrooms.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.services.CityService;
 import org.sweetrooms.dtos.CityDto;
 import org.sweetrooms.persistence.entities.City;
@@ -53,4 +46,11 @@ public class CityController {
     {
         this.cityService.deleteCity(id);
     }
+
+    @Operation(summary = "get City by Country ID")
+    @GetMapping("/getCityByCountryId/{coutryId}")
+    public List<City> getCityByCountryId(@PathVariable(name = "coutryId") Long coutryId){
+        return this.cityService.getCityByCountryId(coutryId);
+    }
+
 }

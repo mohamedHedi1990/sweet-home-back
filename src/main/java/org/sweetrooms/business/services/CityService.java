@@ -31,4 +31,10 @@ public class CityService {
 	public void deleteCity(Long id) {
 		this.cityRepository.deleteById(id);
 	}
+
+	public List<City> getCityByCountryId(Long coutryId) {
+		List<City> cityList=cityRepository.findByCountryCountryId(coutryId);
+		return cityList;
+
+	}
 }
