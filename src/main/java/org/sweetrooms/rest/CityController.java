@@ -48,7 +48,7 @@ public class CityController {
     }
 
     @Operation(summary = "get City by Country ID")
-    @GetMapping("/getCityByCountryId/{coutryId}")
+    @GetMapping("/by-country-id/{coutryId}")
     public List<City> getCityByCountryId(@PathVariable(name = "coutryId") Long coutryId){
         return this.cityService.getCityByCountryId(coutryId);
     }
