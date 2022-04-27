@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/lodger").permitAll().and()
                 .authorizeRequests().antMatchers("/city").permitAll().and()
                 .authorizeRequests().antMatchers("/announcement/search").permitAll().and()
+                .authorizeRequests().antMatchers("/announcement/details/**").permitAll().and()
                 .authorizeRequests().antMatchers("/announcement/last-published").permitAll()
                 .anyRequest().authenticated();
 

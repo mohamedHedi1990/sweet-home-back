@@ -3,11 +3,6 @@ package org.sweetrooms.client.dtos.response;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.sweetrooms.dtos.AddressDto;
 import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.AnnouncementType;
@@ -28,7 +23,6 @@ public class AnnouncementDetailsResponse {
 	private String announcementDescription;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
 	private Date announcementCreatedDate;
-	@Enumerated(EnumType.STRING)
 	private BedType announcementBedType;
 	private Boolean announcementAuthorizedExtraGuests;
 	private String announcementSummary;
@@ -45,10 +39,8 @@ public class AnnouncementDetailsResponse {
 	private Integer announcementMinStay;
 	private Integer announcementMaxStay;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
-	@Temporal(TemporalType.DATE)
 	private Date announcementFirstAvailableDate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
-	@Temporal(TemporalType.DATE)
 	private Date announcementEndAvailableDate;
 
 }
