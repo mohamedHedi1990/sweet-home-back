@@ -2,6 +2,7 @@ package org.sweetrooms.rest;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.business.services.MediaService;
+import org.sweetrooms.business.services.UserService;
 import org.sweetrooms.business.services.files.DBFileStorageService;
 import org.sweetrooms.enumeration.MediaContext;
 import org.sweetrooms.persistence.entities.Announcement;
 import org.sweetrooms.persistence.entities.Media;
+import org.sweetrooms.persistence.entities.User;
 
 @RequestMapping("/file")
 @RestController
@@ -37,10 +40,14 @@ public class FileController {
 	@Autowired
 	private MediaService mediaService;
 
+	@Autowired
+	private UserService userService;
+
 	@CrossOrigin
 	@PostMapping("/post-media/{context}")
 	public void uploadLogoFile(@RequestParam("file") MultipartFile[] files,
-			@PathVariable("context") MediaContext context, @RequestParam(value="contextId", required = false) Long contextId) {
+			@PathVariable("context") MediaContext context,
+			@RequestParam(value = "contextId", required = false) Long contextId) {
 
 		Arrays.stream(files).forEach(file -> {
 
@@ -50,6 +57,19 @@ public class FileController {
 					Announcement announcement = announcementService.getAnnouncementById(contextId);
 					announcement.getAnnouncementMedias().add(media);
 					announcementService.save(announcement);
+				} else if (context == MediaContext.PICTURE_PROFIL) {
+					User user = userService.getCurrentUser();
+					if (!user.getUserMedias().isEmpty()) {
+						Optional<Media> pictureProfilOp = user.getUserMedias().stream()
+								.filter(userMedia -> userMedia.getMediaContext() == MediaContext.PICTURE_PROFIL).findFirst();
+						Media pictureProfil = pictureProfilOp.isPresent() ? pictureProfilOp.get() : null;
+						if (pictureProfil != null) {
+							user.getUserMedias().remove(pictureProfil);
+						}
+
+					}
+					user.getUserMedias().add(media);
+					userService.saveUser(user);
 				}
 
 			} catch (Exception e) {
