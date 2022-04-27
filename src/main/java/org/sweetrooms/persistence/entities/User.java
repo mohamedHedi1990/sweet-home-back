@@ -1,7 +1,9 @@
 package org.sweetrooms.persistence.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,4 +65,7 @@ public  class User extends AuditableSql implements Serializable {
     private Address userAddress;
     @Enumerated(EnumType.STRING)
     private Provider provider;
+    
+    @OneToMany
+    private List<Media> userMedias = new ArrayList<>();
 }

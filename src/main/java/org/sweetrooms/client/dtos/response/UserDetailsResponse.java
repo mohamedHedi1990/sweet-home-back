@@ -25,4 +25,5 @@ public class UserDetailsResponse {
 	private Date userBirthDate;
 	private AddressDto userAddress;
     private RoleCode role;
+    private String userPictureUrl;
 }
