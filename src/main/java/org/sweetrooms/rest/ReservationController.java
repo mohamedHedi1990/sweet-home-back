@@ -4,14 +4,19 @@ package org.sweetrooms.rest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.mappers.ReservationMapper;
 import org.sweetrooms.business.services.AnnouncementService;
+import org.sweetrooms.business.services.LodgerService;
 import org.sweetrooms.business.services.ReservationService;
 import org.sweetrooms.business.services.UserService;
 import org.sweetrooms.client.dtos.request.ReservationRequest;
+import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Reservation;
+import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.utils.SecurityUtil;
 
 import java.util.List;
@@ -26,7 +31,7 @@ public class ReservationController {
     @Autowired
     AnnouncementService announcementService;
     @Autowired
-    UserService userService;
+    LodgerService lodgerService;
     @Operation(summary = "Get reservations",
             description = "Provides all available reservation list")
     @GetMapping("")
@@ -66,12 +71,14 @@ public class ReservationController {
     @Operation(summary = "book a reservation",
             description = "book new reservation")
     @PostMapping("/book-reservation")
-    public Reservation saveReservation(@RequestBody ReservationRequest reservation)
+    public ResponseEntity<Reservation> saveReservation(@RequestBody ReservationRequest reservation)
     {
+    	Lodger user=lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
     	
-        return this.reservationService.saveReservation(ReservationMapper.fromReservationRequest(reservation, 
-        		(Lodger)userService.getUserById(SecurityUtil.getCurrentUserId()),
+         this.reservationService.saveReservation(ReservationMapper.fromReservationRequest(reservation, 
+        		user,
         		announcementService.getAnnouncementById(reservation.getReservationAnnouncmeentID())));
+        return  new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
