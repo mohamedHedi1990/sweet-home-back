@@ -5,8 +5,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.sweetrooms.business.mappers.ReservationMapper;
+import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.business.services.ReservationService;
+import org.sweetrooms.business.services.UserService;
+import org.sweetrooms.client.dtos.request.ReservationRequest;
+import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Reservation;
+import org.sweetrooms.utils.SecurityUtil;
 
 import java.util.List;
 
@@ -17,6 +23,10 @@ import java.util.List;
 public class ReservationController {
     @Autowired
     ReservationService reservationService;
+    @Autowired
+    AnnouncementService announcementService;
+    @Autowired
+    UserService userService;
     @Operation(summary = "Get reservations",
             description = "Provides all available reservation list")
     @GetMapping("")
@@ -53,5 +63,15 @@ public class ReservationController {
         this.reservationService.deleteReservation(id);
     }
     
+    @Operation(summary = "book a reservation",
+            description = "book new reservation")
+    @PostMapping("/book-reservation")
+    public Reservation saveReservation(@RequestBody ReservationRequest reservation)
+    {
+    	
+        return this.reservationService.saveReservation(ReservationMapper.fromReservationRequest(reservation, 
+        		(Lodger)userService.getUserById(SecurityUtil.getCurrentUserId()),
+        		announcementService.getAnnouncementById(reservation.getReservationAnnouncmeentID())));
+    }
 
 }
