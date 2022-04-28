@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.UserMapper;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.client.dtos.response.UserDetailsResponse;
@@ -72,5 +73,14 @@ public class UserService {
 	public void changeUserPassword(User user, String password) {
 	    user.setUserPassword(encoder.encode(password));
 	    userRepository.save(user);
+	}
+
+	public void patchUser(UserRequest userRequest) {
+		User user = getCurrentUser();
+		user.setUserFirstName(userRequest.getUserFirstName());
+		user.setUserLastName(userRequest.getUserLastName());
+		user.setUserBirthDate(userRequest.getUserBirthDate());
+		user.setUserAddress(userRequest.getUserAddress() != null ? AddressMapper.toAddress(userRequest.getUserAddress()) : null);
+		userRepository.save(user);
 	}
 }

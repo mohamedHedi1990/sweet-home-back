@@ -9,4 +9,6 @@ import org.sweetrooms.persistence.entities.City;
 public interface CityRepository  extends JpaRepository<City,Long> {
 	City findByCityCode(String cityCode);
 	List<City> findByCountryCountryCodeOrderByCityLabel(String countryCode);
+
+	List<City> findByCountryCountryId(Long countryId);
 }
