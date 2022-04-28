@@ -53,4 +53,10 @@ public class CityController {
     {
         this.cityService.deleteCity(id);
     }
+
+    @Operation(summary = "get City by Country ID")
+    @GetMapping("/by-country-id/{coutryId}")
+    public List<CityDto> getCityByCountryId(@PathVariable(name = "coutryId") Long coutryId){
+        return this.cityService.getCityByCountryId(coutryId);
+    }
 }

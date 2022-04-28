@@ -107,4 +107,20 @@ public class FileController {
 				.body(resource);
 	}
 
+	@CrossOrigin
+	@GetMapping("delete-user-photo")
+	public void deleteUserPhoto(){
+		User user = userService.getCurrentUser();
+		if (!user.getUserMedias().isEmpty()) {
+			Optional<Media> pictureProfilOp = user.getUserMedias().stream()
+					.filter(userMedia -> userMedia.getMediaContext() == MediaContext.PICTURE_PROFIL).findFirst();
+			Media pictureProfil = pictureProfilOp.isPresent() ? pictureProfilOp.get() : null;
+			if (pictureProfil != null) {
+				user.getUserMedias().remove(pictureProfil);
+			}
+
+		}
+		userService.saveUser(user);
+	}
+
 }
