@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.City;
 import org.sweetrooms.persistence.entities.Country;
@@ -13,6 +14,7 @@ import org.sweetrooms.persistence.entities.Role;
 import org.sweetrooms.persistence.repositories.CityRepository;
 import org.sweetrooms.persistence.repositories.CountryRepository;
 import org.sweetrooms.persistence.repositories.RoleRepository;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @SpringBootApplication
 public class SweetroomsApplication implements CommandLineRunner {
@@ -96,5 +98,4 @@ public class SweetroomsApplication implements CommandLineRunner {
     	}
     	
     }
-
 }
