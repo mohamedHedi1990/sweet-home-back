@@ -29,7 +29,23 @@ spring:
                         client-secret: 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
     servlet:      
         multipart:
-            max-file-size: 2000MB               
+            max-file-size: 2000MB 
+    mail:
+        host:  smtp.gmail.com
+        port: 587
+        username:
+        password:
+        default-encoding: UTF-8
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    connectiontimeout: 25000
+                    timeout: 25000
+                    writetimeout: 25000
+                    starttls:
+                        enabled: true
+                          
 
 springdoc:
     api-docs:
@@ -42,5 +58,7 @@ sweetrooms:
     app:
         jwtExpirationMs: 86400000
         jwtSecret: sweetRoomsSecretKey
+        name: SWEET ROOM
+        base-url: http://localhost:4200/
 file:
-  upload-dir: C:/Users/msi/Documents/imcoding/cash-forecast/files
+  upload-dir: /root/sweet-room/files
