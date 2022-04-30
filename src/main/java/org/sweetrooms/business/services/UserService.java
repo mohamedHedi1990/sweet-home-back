@@ -67,7 +67,10 @@ public class UserService {
 		return user;
 	}
 	public User findUserByEmail(String email) {
-		return this .userRepository.findByUserEmail(email).orElse(null);
+		User user= this.lodgerService.findByUserEmail(email);
+				if(user==null){
+				return this.ownerService.findByUserEmail(email);}
+		return user;
 	}
 	
 	public void changeUserPassword(User user, String password) {

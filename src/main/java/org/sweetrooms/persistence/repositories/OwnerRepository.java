@@ -6,4 +6,5 @@ import org.sweetrooms.persistence.entities.Owner;
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner,Long> {
 	Owner findByUserId(Long userId);
+	Owner findByUserEmail(String email);
 }

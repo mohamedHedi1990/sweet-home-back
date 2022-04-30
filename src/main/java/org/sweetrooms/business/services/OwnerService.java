@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.enumeration.RoleCode;
+import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.Role;
 import org.sweetrooms.persistence.repositories.OwnerRepository;
@@ -33,6 +34,10 @@ public class OwnerService {
     public Owner getOwnerById(Long id)
     {
         return this.ownerRepository.getById(id);
+    }
+    public Owner findByUserEmail(String email)
+    {
+        return this.ownerRepository.findByUserEmail(email);
     }
     public Owner saveOwner(UserRequest ownerIn)
     {
