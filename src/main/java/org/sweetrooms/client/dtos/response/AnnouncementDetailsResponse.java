@@ -36,11 +36,14 @@ public class AnnouncementDetailsResponse {
 	private Double announcementCost;
 	private UserDto announcementOwnerPublished;
 	private List<String> announcementPictureUrls;
+	private List<EquipementResponse> announcementEquipements;
 	private Integer announcementMinStay;
 	private Integer announcementMaxStay;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
 	private Date announcementFirstAvailableDate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
 	private Date announcementEndAvailableDate;
+    private Integer announcementGuestNumber;
+
 
 }

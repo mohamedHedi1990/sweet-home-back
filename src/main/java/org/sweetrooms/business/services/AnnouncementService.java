@@ -15,10 +15,12 @@ import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.Announcement;
+import org.sweetrooms.persistence.entities.EquipementAnnoncement;
 import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.AnnouncementRepository;
+import org.sweetrooms.persistence.repositories.EquipementAnnoncementRepository;
 import org.sweetrooms.persistence.repositories.OwnerRepository;
 
 @Service
@@ -30,7 +32,8 @@ public class AnnouncementService {
 	private OwnerRepository ownerRepository;
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+private EquipementAnnoncementRepository annoncementRepository;
 	public List<Announcement> getAllAnnouncements() {
 
 		return this.announcementRepository.findAll();
@@ -40,7 +43,9 @@ public class AnnouncementService {
 		return this.announcementRepository.getById(id);
 	}
 	public AnnouncementDetailsResponse getAnnouncementDetailsById(Long id) {
-		return AnnouncementMapper.toAnnouncementDetailsResponse(getAnnouncementById(id));
+		Announcement announcement=getAnnouncementById(id);
+		List<EquipementAnnoncement> listofAE= annoncementRepository.findByAnnouncement(announcement);
+		return AnnouncementMapper.toAnnouncementDetailsResponse(announcement,listofAE);
 	}
 	public Announcement save(Announcement announcement) {
 		return this.announcementRepository.save(announcement);
