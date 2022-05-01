@@ -69,6 +69,7 @@ public class UserService {
 		user.setUserFirstName(userRequest.getUserFirstName());
 		user.setUserLastName(userRequest.getUserLastName());
 		user.setUserBirthDate(userRequest.getUserBirthDate());
+		user.setUserEmail(userRequest.getUserEmail());
 		user.setUserAddress(userRequest.getUserAddress() != null ? AddressMapper.toAddress(userRequest.getUserAddress()) : null);
 		userRepository.save(user);
 	}
