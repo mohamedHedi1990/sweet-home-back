@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,6 +45,7 @@ public class Announcement extends AuditableSql implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long announcementId;
+	@Lob
     private String announcementDescription;
     private String announcementTitle;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Tunis")
@@ -62,7 +65,9 @@ public class Announcement extends AuditableSql implements Serializable{
     @Enumerated(EnumType.STRING)
     private BedType announcementBedType;
     private Boolean announcementAuthorizedExtraGuests;
+    @Lob
     private String announcementSummary;
+    @Lob
     private String announcementRules;
     private Integer announcementMinStay;
     private Integer announcementMaxStay;
@@ -85,7 +90,10 @@ public class Announcement extends AuditableSql implements Serializable{
     @ManyToOne
     private Reduction announcementReduction;
     @OneToMany(cascade = CascadeType.MERGE)
-    private List<Media> announcementMedias = new ArrayList<>();
+    private List<Media> medias = new ArrayList<>();
+    
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Equipement> equipments = new ArrayList<>();
 
 
 

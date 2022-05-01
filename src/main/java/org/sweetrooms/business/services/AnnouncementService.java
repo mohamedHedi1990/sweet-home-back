@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.AnnouncementMapper;
+import org.sweetrooms.business.mappers.EquipementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
@@ -15,12 +16,10 @@ import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.Announcement;
-import org.sweetrooms.persistence.entities.EquipementAnnoncement;
 import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 import org.sweetrooms.persistence.repositories.AnnouncementRepository;
-import org.sweetrooms.persistence.repositories.EquipementAnnoncementRepository;
 import org.sweetrooms.persistence.repositories.OwnerRepository;
 
 @Service
@@ -32,8 +31,7 @@ public class AnnouncementService {
 	private OwnerRepository ownerRepository;
 	@Autowired
 	private UserService userService;
-	@Autowired
-private EquipementAnnoncementRepository annoncementRepository;
+
 	public List<Announcement> getAllAnnouncements() {
 
 		return this.announcementRepository.findAll();
@@ -42,11 +40,12 @@ private EquipementAnnoncementRepository annoncementRepository;
 	public Announcement getAnnouncementById(Long id) {
 		return this.announcementRepository.getById(id);
 	}
+
 	public AnnouncementDetailsResponse getAnnouncementDetailsById(Long id) {
-		Announcement announcement=getAnnouncementById(id);
-		List<EquipementAnnoncement> listofAE= annoncementRepository.findByAnnouncement(announcement);
-		return AnnouncementMapper.toAnnouncementDetailsResponse(announcement,listofAE);
+		Announcement announcement = getAnnouncementById(id);
+		return AnnouncementMapper.toAnnouncementDetailsResponse(announcement);
 	}
+
 	public Announcement save(Announcement announcement) {
 		return this.announcementRepository.save(announcement);
 	}
@@ -92,6 +91,8 @@ private EquipementAnnoncementRepository annoncementRepository;
 			announcement.setAnnouncementSummary(announcementIn.getAnnouncementSummary());
 			announcement.setAnnouncementTitle(announcementIn.getAnnouncementTitle());
 			announcement.setAnnouncementType(announcementIn.getAnnouncementType());
+			announcement.setEquipments(announcementIn.getEquipments().stream()
+					.map(equipment -> EquipementMapper.toEquipement(equipment)).collect(Collectors.toList()));
 			return this.announcementRepository.save(announcement);
 		}
 		return null;

@@ -55,7 +55,7 @@ public class FileController {
 				Media media = mediaService.saveMedia(file, context);
 				if (context == MediaContext.ANNOUNCEMENT) {
 					Announcement announcement = announcementService.getAnnouncementById(contextId);
-					announcement.getAnnouncementMedias().add(media);
+					announcement.getMedias().add(media);
 					announcementService.save(announcement);
 				} else if (context == MediaContext.PICTURE_PROFIL) {
 					User user = userService.getCurrentUser();

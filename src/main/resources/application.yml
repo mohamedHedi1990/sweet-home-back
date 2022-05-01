@@ -10,7 +10,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/sweetrooms?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Africa/Tunis&useLegacyDatetimeCode=false
         username: root
-        password: 
+        password: root
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         generate-ddl: true

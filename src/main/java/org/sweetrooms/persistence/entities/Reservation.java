@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.sweetrooms.enumeration.ReservationStatus;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -23,7 +24,11 @@ public class Reservation {
     private Integer reservationGuestNumber;
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus ;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
+    @Temporal(TemporalType.DATE)
     private Date reservationStartDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
+    @Temporal(TemporalType.DATE)
     private Date reservationEndDate;
     @ManyToOne
     private Lodger reservationLodger;

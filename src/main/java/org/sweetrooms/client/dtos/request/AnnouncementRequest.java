@@ -1,8 +1,10 @@
 package org.sweetrooms.client.dtos.request;
 
 import java.util.Date;
+import java.util.List;
 
 import org.sweetrooms.dtos.AddressDto;
+import org.sweetrooms.dtos.EquipementDto;
 import org.sweetrooms.enumeration.AnnouncementType;
 import org.sweetrooms.enumeration.BedType;
 
@@ -34,5 +36,6 @@ public class AnnouncementRequest {
 	private String announcementMapsLongitude;
 	private String announcementMapsLatitude;
 	private Double announcementCost;
+	private List<EquipementDto> equipments;
 
 }
