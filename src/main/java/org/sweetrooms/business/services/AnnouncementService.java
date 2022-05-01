@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.AnnouncementMapper;
+import org.sweetrooms.business.mappers.EquipementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
@@ -39,9 +40,12 @@ public class AnnouncementService {
 	public Announcement getAnnouncementById(Long id) {
 		return this.announcementRepository.getById(id);
 	}
+
 	public AnnouncementDetailsResponse getAnnouncementDetailsById(Long id) {
-		return AnnouncementMapper.toAnnouncementDetailsResponse(getAnnouncementById(id));
+		Announcement announcement = getAnnouncementById(id);
+		return AnnouncementMapper.toAnnouncementDetailsResponse(announcement);
 	}
+
 	public Announcement save(Announcement announcement) {
 		return this.announcementRepository.save(announcement);
 	}
@@ -87,6 +91,8 @@ public class AnnouncementService {
 			announcement.setAnnouncementSummary(announcementIn.getAnnouncementSummary());
 			announcement.setAnnouncementTitle(announcementIn.getAnnouncementTitle());
 			announcement.setAnnouncementType(announcementIn.getAnnouncementType());
+			announcement.setEquipments(announcementIn.getEquipments().stream()
+					.map(equipment -> EquipementMapper.toEquipement(equipment)).collect(Collectors.toList()));
 			return this.announcementRepository.save(announcement);
 		}
 		return null;

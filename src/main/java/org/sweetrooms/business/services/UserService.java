@@ -10,7 +10,9 @@ import org.sweetrooms.business.mappers.UserMapper;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.client.dtos.response.UserDetailsResponse;
 import org.sweetrooms.enumeration.RoleCode;
+import org.sweetrooms.persistence.entities.PasswordResetToken;
 import org.sweetrooms.persistence.entities.User;
+import org.sweetrooms.persistence.repositories.PasswordTokenRepository;
 import org.sweetrooms.persistence.repositories.UserRepository;
 import org.sweetrooms.utils.SecurityUtil;
 
@@ -26,6 +28,7 @@ public class UserService {
 
 	@Autowired
 	private OwnerService ownerService;
+	
 
 	public List<User> getAllUsers() {
 		return this.userRepository.findAll();
@@ -62,6 +65,17 @@ public class UserService {
 		Long currentuserId = SecurityUtil.getCurrentUserId();
 		User user = userRepository.findById(currentuserId).orElse(null);
 		return user;
+	}
+	public User findUserByEmail(String email) {
+		User user= this.lodgerService.findByUserEmail(email);
+				if(user==null){
+				return this.ownerService.findByUserEmail(email);}
+		return user;
+	}
+	
+	public void changeUserPassword(User user, String password) {
+	    user.setUserPassword(encoder.encode(password));
+	    userRepository.save(user);
 	}
 
 	public void patchUser(UserRequest userRequest) {

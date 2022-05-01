@@ -3,6 +3,9 @@ server:
     servlet:
         contextPath: /api
 spring:
+    thymeleaf:
+        prefix: classpath:\templates\
+        suffix: .html
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/sweetrooms?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Africa/Tunis&useLegacyDatetimeCode=false
@@ -61,4 +64,4 @@ sweetrooms:
         name: SWEET ROOM
         base-url: http://localhost:4200/
 file:
-  upload-dir: /root/sweet-room/files
+  upload-dir: C:\projects\sweet\files

@@ -34,6 +34,10 @@ public class LodgerService {
     {
         return this.lodgerRepository.getById(id);
     }
+    public Lodger findByUserEmail(String email)
+    {
+        return this.lodgerRepository.findByUserEmail(email);
+    }
     public Lodger saveLodger(UserRequest lodgerIn)
     {
     	Lodger lodger = new Lodger();

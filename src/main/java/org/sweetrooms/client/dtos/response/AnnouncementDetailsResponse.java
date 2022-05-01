@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.sweetrooms.dtos.AddressDto;
+import org.sweetrooms.dtos.EquipementDto;
 import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.AnnouncementType;
 import org.sweetrooms.enumeration.BedType;
@@ -36,11 +37,14 @@ public class AnnouncementDetailsResponse {
 	private Double announcementCost;
 	private UserDto announcementOwnerPublished;
 	private List<String> announcementPictureUrls;
+	private List<EquipementDto> announcementEquipements;
 	private Integer announcementMinStay;
 	private Integer announcementMaxStay;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
 	private Date announcementFirstAvailableDate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
 	private Date announcementEndAvailableDate;
+    private Integer announcementGuestNumber;
+
 
 }

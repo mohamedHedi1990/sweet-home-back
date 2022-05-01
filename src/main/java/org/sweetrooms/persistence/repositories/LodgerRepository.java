@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 import org.sweetrooms.persistence.entities.Lodger;
 @Repository
 public interface LodgerRepository  extends JpaRepository<Lodger,Long> {
+	public Lodger findByUserEmail(String email);
 }
