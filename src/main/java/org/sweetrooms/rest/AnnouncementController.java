@@ -64,7 +64,7 @@ public class AnnouncementController {
 		this.announcementService.deleteAnnouncement(id);
 	}
 
-	@GetMapping("/search")
+	@PostMapping("/search")
 	public List<AnnouncementResponse> findAnnouncementsByCriteria(
 			@RequestBody AnnouncementSearchCriteria announcementSearchCriteria) {
 		return this.announcementService.findAnnouncementsByCriteria(announcementSearchCriteria);
