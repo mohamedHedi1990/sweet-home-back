@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
+import org.sweetrooms.client.dtos.response.MyAnnouncementResponse;
 import org.sweetrooms.dtos.AddressDto;
 import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.AnnouncementType;
@@ -56,5 +57,17 @@ public class AnnouncementMapper {
 		announcement.getAnnouncementMaxStay(),
 		announcement.getAnnouncementFirstAvailableDate(),
 		announcement.getAnnouncementEndAvailableDate());
+	}
+
+	public static MyAnnouncementResponse toMyAnnouncementResponse(Announcement announcement) {
+		return new MyAnnouncementResponse(announcement.getAnnouncementId(), announcement.getAnnouncementTitle(),
+				announcement.getAnnouncementCreatedDate(), announcement.getAnnouncementEndAvailableDate(), announcement.getAnnouncementNumberLike(),
+				announcement.getAnnouncementNumberDislike(), announcement.getAnnouncementType(),
+				AddressMapper.toAddressDto(announcement.getAnnouncementAddress()),
+				announcement.getAnnouncementBedNumber(), announcement.getAnnouncementRoomNumber(),
+				announcement.getAnnouncementBathRoomNumber(), announcement.getGlobalRate(),
+				announcement.getAnnouncementCost(), UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()),
+				!announcement.getAnnouncementMedias().isEmpty() ? announcement.getAnnouncementMedias().get(0).getMediaUrl() : null,
+                 announcement.getAnnouncementStatus());
 	}
 }
