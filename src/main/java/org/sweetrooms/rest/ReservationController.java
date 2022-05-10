@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.sweetrooms.business.mappers.ReservationMapper;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.business.services.LodgerService;
 import org.sweetrooms.business.services.ReservationService;
 import org.sweetrooms.client.dtos.request.ReservationRequest;
 import org.sweetrooms.persistence.entities.Lodger;
+import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.Reservation;
 import org.sweetrooms.utils.SecurityUtil;
 
@@ -41,8 +41,13 @@ public class ReservationController {
 
 	@Operation(summary = "Get reservations", description = "Provides all available reservation list")
 	@GetMapping("")
-	public List<Reservation> getAllReservations() {
-		return this.reservationService.getAllReservations();
+	public ResponseEntity<List<Reservation>> getAllReservations(@RequestParam("announcementId") Long announcementId) {
+		Lodger user = lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
+		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
+		if(owner.getUserId() != user.getUserId())
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		return ResponseEntity.ok(this.reservationService.getAllReservations());
+		
 	}
 
 	/*
