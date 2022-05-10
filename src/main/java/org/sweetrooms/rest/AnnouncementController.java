@@ -18,6 +18,7 @@ import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
+import org.sweetrooms.client.dtos.response.MyAnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.persistence.entities.Announcement;
 
@@ -75,7 +76,7 @@ public class AnnouncementController {
 		return this.announcementService.findLastAnnouncements();
 	}
 	@GetMapping("/my-announcements")
-	public List<AnnouncementResponse> findMyAnnouncements() {
+	public List<MyAnnouncementResponse> findMyAnnouncements() {
 		return this.announcementService.getMyAnnoucements();
 	}
 }

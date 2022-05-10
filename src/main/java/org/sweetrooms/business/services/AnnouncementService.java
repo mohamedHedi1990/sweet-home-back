@@ -12,6 +12,7 @@ import org.sweetrooms.business.mappers.EquipementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
+import org.sweetrooms.client.dtos.response.MyAnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.RoleCode;
@@ -50,19 +51,19 @@ public class AnnouncementService {
 		return this.announcementRepository.save(announcement);
 	}
 
-	public List<AnnouncementResponse> getMyAnnoucements() {
+	public List<MyAnnouncementResponse> getMyAnnoucements() {
 		User user = userService.getCurrentUser();
 		if (user.getUserRole().getRoleCode() == RoleCode.OWNER) {
 			return this.announcementRepository.findByAnnouncementOwnerPublished(((Owner) user)).stream()
-					.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+					.map(announcement -> AnnouncementMapper.toMyAnnouncementResponse(announcement))
 					.collect(Collectors.toList());
 		} else if (user.getUserRole().getRoleCode() == RoleCode.LODGER) {
 			return this.announcementRepository.findByAnnouncementLodgerInteracted((Lodger) user).stream()
-					.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+					.map(announcement -> AnnouncementMapper.toMyAnnouncementResponse(announcement))
 					.collect(Collectors.toList());
 		}
 		return this.announcementRepository.findAll().stream()
-				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
+				.map(announcement -> AnnouncementMapper.toMyAnnouncementResponse(announcement))
 				.collect(Collectors.toList());
 
 	}
