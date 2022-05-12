@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.ReservationMapper;
 import org.sweetrooms.client.dtos.request.ReservationRequest;
+import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.ReservationStatus;
 import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.Announcement;
@@ -52,6 +53,9 @@ public class ReservationService {
 		reservation.setReservationStartDate(reservationIn.getReservationStartDate());
 		reservation.setReservationStatus(ReservationStatus.PENDING);
 		this.saveReservation(reservation);
+		
+		announcement.setAnnouncementStatus(AnnouncementStatus.BOOKED);
+		this.announcementService.save(announcement);
 	}
 
 	public void deleteReservation(Long id) {
