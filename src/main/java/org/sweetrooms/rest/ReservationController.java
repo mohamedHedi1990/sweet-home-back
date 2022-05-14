@@ -1,26 +1,25 @@
 package org.sweetrooms.rest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.sweetrooms.business.mappers.ReservationMapper;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.business.services.LodgerService;
 import org.sweetrooms.business.services.ReservationService;
 import org.sweetrooms.client.dtos.request.ReservationRequest;
+import org.sweetrooms.client.dtos.response.ReservationDetailsResponse;
+import org.sweetrooms.enumeration.ReservationStatus;
 import org.sweetrooms.persistence.entities.Lodger;
 import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.Reservation;
+import org.sweetrooms.persistence.entities.User;
+import org.sweetrooms.persistence.repositories.UserRepository;
 import org.sweetrooms.utils.SecurityUtil;
 
 //import io.swagger.annotations.Api;
@@ -38,16 +37,35 @@ public class ReservationController {
 	AnnouncementService announcementService;
 	@Autowired
 	LodgerService lodgerService;
+	@Autowired
+    UserRepository userRepository;
 
 	@Operation(summary = "Get reservations", description = "Provides all available reservation list")
 	@GetMapping("")
 	public ResponseEntity<List<Reservation>> getAllReservations(@RequestParam("announcementId") Long announcementId) {
-		Lodger user = lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
+		//Lodger user = lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
+        User user=userRepository.findById(SecurityUtil.getCurrentUserId()).get();
 		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
 		if(owner.getUserId() != user.getUserId())
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		return ResponseEntity.ok(this.reservationService.getAllReservations());
 		
+	}
+
+	@Operation(summary = "Get reservations", description = "Provides all available reservation list")
+	@GetMapping("/by-announcement-id")
+	public ResponseEntity<List<ReservationDetailsResponse>> getAllReservationsByAnnouncement(@RequestParam("announcementId") Long announcementId) {
+		User user=userRepository.findById(SecurityUtil.getCurrentUserId()).get();
+		System.out.println("Logged user : "+user.getUserEmail());
+		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
+		if(owner.getUserId() != user.getUserId())
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+		List<Reservation> reservations=this.reservationService.findAllByAnnouncementId(announcementId);
+
+		List<ReservationDetailsResponse> responses= reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
+		return ResponseEntity.ok(responses);
+
 	}
 
 	/*
@@ -83,6 +101,16 @@ public class ReservationController {
 
 		this.reservationService.saveReservation(reservationIn, announcementId);
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	@GetMapping("/validate/{id}")
+    public void patchReservation(@PathVariable Long id){
+		System.out.println("reservationStatus to patch : "+id);
+		Reservation reservation=this.reservationService.getReservationById(id);
+		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+
+		this.reservationService.saveReservation(reservation);
+
 	}
 
 }

@@ -70,4 +70,10 @@ public class ReservationService {
 		}
 		return null;
 	}
+
+    public List<Reservation> findAllByAnnouncementId(Long announcementId) {
+
+        return this.reservationRepository.findAllByReservationAnnouncmeentAnnouncementId(announcementId);
+
+    }
 }
