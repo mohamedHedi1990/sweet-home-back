@@ -7,14 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.sweetrooms.enumeration.ReservationStatus;
 import org.sweetrooms.enumeration.RoleCode;
-import org.sweetrooms.persistence.entities.City;
-import org.sweetrooms.persistence.entities.Country;
-import org.sweetrooms.persistence.entities.Role;
-import org.sweetrooms.persistence.repositories.CityRepository;
-import org.sweetrooms.persistence.repositories.CountryRepository;
-import org.sweetrooms.persistence.repositories.RoleRepository;
+import org.sweetrooms.persistence.entities.*;
+import org.sweetrooms.persistence.repositories.*;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+
+import java.util.Date;
 
 @SpringBootApplication
 public class SweetroomsApplication implements CommandLineRunner {
@@ -24,6 +23,12 @@ public class SweetroomsApplication implements CommandLineRunner {
 	private CountryRepository countryRepository;
 	@Autowired
 	private CityRepository cityRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
+	@Autowired
+	private LodgerRepository lodgerRepository;
+	@Autowired
+	private AnnouncementRepository announcementRepository;
     private static final Logger logger = LoggerFactory.getLogger(SweetroomsApplication.class);
     public static void main(String[] args) {
 
@@ -96,6 +101,21 @@ public class SweetroomsApplication implements CommandLineRunner {
     		sfax.setCountry(tnCountry);
     		sfax = this.cityRepository.save(sfax);
     	}
-    	
-    }
+
+    	/*this.reservationRepository.save(new Reservation(null, 5, ReservationStatus.PENDING,
+				new Date(), new Date(), (this.lodgerRepository.findById((long) 13).get()), this.announcementRepository.findById((long) 1).get()));
+
+		this.reservationRepository.save(new Reservation(null, 5, ReservationStatus.PENDING,
+				new Date(), new Date(), (this.lodgerRepository.findById((long) 17).get()), this.announcementRepository.findById((long) 6).get()));
+
+		this.reservationRepository.save(new Reservation(null, 5, ReservationStatus.PENDING,
+				new Date(), new Date(), (this.lodgerRepository.findById((long) 18).get()), this.announcementRepository.findById((long) 1).get()));
+
+		this.reservationRepository.save(new Reservation(null, 5, ReservationStatus.PENDING,
+				new Date(), new Date(), (this.lodgerRepository.findById((long) 17).get()), this.announcementRepository.findById((long) 7).get()));
+
+		this.reservationRepository.save(new Reservation(null, 5, ReservationStatus.PENDING,
+				new Date(), new Date(), (this.lodgerRepository.findById((long) 13).get()), this.announcementRepository.findById((long) 1).get()));
+*/
+	}
 }
