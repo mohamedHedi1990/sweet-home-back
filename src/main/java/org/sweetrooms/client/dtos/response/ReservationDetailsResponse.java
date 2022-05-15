@@ -3,6 +3,7 @@ package org.sweetrooms.client.dtos.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.ReservationStatus;
 
 import java.util.Date;
@@ -14,8 +15,6 @@ public class ReservationDetailsResponse {
 
 
     private Long reservationId;
-    private String userFirstName;
-    private String userLastName;
 
     private Date reservationStartDate;
     private Date reservationEndDate;
@@ -23,6 +22,8 @@ public class ReservationDetailsResponse {
     private Integer reservationGuestNumber;
     private ReservationStatus reservationStatus ;
 
-    private String userPictureUrl;
+
+
+    private UserDto userDto;
 
 }

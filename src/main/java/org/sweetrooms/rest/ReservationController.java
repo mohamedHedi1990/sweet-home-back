@@ -52,18 +52,15 @@ public class ReservationController {
 		
 	}
 
-	@Operation(summary = "Get reservations", description = "Provides all available reservation list")
+	@Operation(summary = "Get reservations", description = "Provides all available reservation list to the corresponding announcement")
 	@GetMapping("/by-announcement-id")
 	public ResponseEntity<List<ReservationDetailsResponse>> getAllReservationsByAnnouncement(@RequestParam("announcementId") Long announcementId) {
-		User user=userRepository.findById(SecurityUtil.getCurrentUserId()).get();
-		System.out.println("Logged user : "+user.getUserEmail());
-		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
-		if(owner.getUserId() != user.getUserId())
+		boolean isAutorized=this.reservationService.isAuthorizedOwner(announcementId);
+		if(!isAutorized)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-		List<Reservation> reservations=this.reservationService.findAllByAnnouncementId(announcementId);
 
-		List<ReservationDetailsResponse> responses= reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
+		List<ReservationDetailsResponse> responses= this.reservationService.getReservationsAnnouncement(announcementId);
 		return ResponseEntity.ok(responses);
 
 	}
@@ -104,8 +101,7 @@ public class ReservationController {
 	}
 
 	@GetMapping("/validate/{id}")
-    public void patchReservation(@PathVariable Long id){
-		System.out.println("reservationStatus to patch : "+id);
+    public void validateReservation(@PathVariable Long id){
 		Reservation reservation=this.reservationService.getReservationById(id);
 		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
 
