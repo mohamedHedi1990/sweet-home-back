@@ -100,8 +100,8 @@ public class ReservationController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@GetMapping("/validate/{id}")
-    public void validateReservation(@PathVariable Long id){
+	@PutMapping("/validate")
+    public void validateReservation(@RequestBody Long id){
 		Reservation reservation=this.reservationService.getReservationById(id);
 		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
 
