@@ -17,6 +17,8 @@ spring:
         hibernate:
             ddl-auto: update
             use-new-id-generator-mappings: false
+
+        show-sql: true
     security:
         oauth2:
             client:
@@ -64,4 +66,4 @@ sweetrooms:
         name: SWEET ROOM
         base-url: http://localhost:4200/
 file:
-  upload-dir: C:\projects\sweet\files
+  upload-dir: /root/sweet-room/files
