@@ -76,9 +76,8 @@ public class ReservationService {
 
     }
 
-	public boolean isAuthorizedOwner(Long announcementId) {
+	public boolean checkIfTheCurrentUserIsTheOwner(Long announcementId) {
 		User user=userService.getUserById(SecurityUtil.getCurrentUserId());
-		System.out.println("Logged user : "+user.getUserEmail());
 		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
 		if(owner.getUserId() == user.getUserId()) return true;
 
@@ -90,5 +89,12 @@ public class ReservationService {
 
 		return reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
 
+	}
+
+	public void validateReservation(Long id) {
+		Reservation reservation=getReservationById(id);
+		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+
+		saveReservation(reservation);
 	}
 }

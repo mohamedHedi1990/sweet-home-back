@@ -55,7 +55,7 @@ public class ReservationController {
 	@Operation(summary = "Get reservations", description = "Provides all available reservation list to the corresponding announcement")
 	@GetMapping("/by-announcement-id")
 	public ResponseEntity<List<ReservationDetailsResponse>> getAllReservationsByAnnouncement(@RequestParam("announcementId") Long announcementId) {
-		boolean isAutorized=this.reservationService.isAuthorizedOwner(announcementId);
+		boolean isAutorized=this.reservationService.checkIfTheCurrentUserIsTheOwner(announcementId);
 		if(!isAutorized)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
@@ -102,10 +102,8 @@ public class ReservationController {
 
 	@PutMapping("/validate")
     public void validateReservation(@RequestBody Long id){
-		Reservation reservation=this.reservationService.getReservationById(id);
-		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
 
-		this.reservationService.saveReservation(reservation);
+		this.reservationService.validateReservation(id);
 
 	}
 
