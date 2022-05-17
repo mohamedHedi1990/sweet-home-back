@@ -1,18 +1,17 @@
 package org.sweetrooms.business.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.ReservationMapper;
 import org.sweetrooms.client.dtos.request.ReservationRequest;
+import org.sweetrooms.client.dtos.response.ReservationDetailsResponse;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.ReservationStatus;
 import org.sweetrooms.enumeration.RoleCode;
-import org.sweetrooms.persistence.entities.Announcement;
-import org.sweetrooms.persistence.entities.Lodger;
-import org.sweetrooms.persistence.entities.Reservation;
-import org.sweetrooms.persistence.entities.User;
+import org.sweetrooms.persistence.entities.*;
 import org.sweetrooms.persistence.repositories.ReservationRepository;
 import org.sweetrooms.utils.SecurityUtil;
 
@@ -69,5 +68,33 @@ public class ReservationService {
 			return this.reservationRepository.findByReservationLodger((Lodger) user);
 		}
 		return null;
+	}
+
+    public List<Reservation> findAllByAnnouncementId(Long announcementId) {
+
+        return this.reservationRepository.findAllByReservationAnnouncmeentAnnouncementId(announcementId);
+
+    }
+
+	public boolean checkIfTheCurrentUserIsTheOwner(Long announcementId) {
+		User user=userService.getUserById(SecurityUtil.getCurrentUserId());
+		Owner owner = this.announcementService.getAnnouncementById(announcementId).getAnnouncementOwnerPublished();
+		if(owner.getUserId() == user.getUserId()) return true;
+
+		return false;
+	}
+
+	public List<ReservationDetailsResponse> getReservationsAnnouncement(Long announcementId) {
+		List<Reservation> reservations=findAllByAnnouncementId(announcementId);
+
+		return reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
+
+	}
+
+	public void validateReservation(Long id) {
+		Reservation reservation=getReservationById(id);
+		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+
+		saveReservation(reservation);
 	}
 }

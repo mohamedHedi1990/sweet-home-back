@@ -15,4 +15,5 @@ public class UserDto {
     private String userLastName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
     private Date userDateInscription;
+    private String userPictureUrl;
 }
