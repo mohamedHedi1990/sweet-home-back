@@ -95,6 +95,9 @@ public class Announcement extends AuditableSql implements Serializable{
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Equipement> equipments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "announcement")
+    private List<Comment> comments;
+
 
 
 }

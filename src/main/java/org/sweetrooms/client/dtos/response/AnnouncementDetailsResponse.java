@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.sweetrooms.dtos.AddressDto;
+import org.sweetrooms.dtos.CommentDto;
 import org.sweetrooms.dtos.EquipementDto;
 import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.AnnouncementType;
@@ -45,6 +46,8 @@ public class AnnouncementDetailsResponse {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Tunis")
 	private Date announcementEndAvailableDate;
     private Integer announcementGuestNumber;
+
+    private List<CommentDto> commentDtos;
 
 
 }
