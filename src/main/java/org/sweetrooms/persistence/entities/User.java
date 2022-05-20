@@ -68,4 +68,7 @@ public  class User extends AuditableSql implements Serializable {
     
     @OneToMany
     private List<Media> userMedias = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 }

@@ -41,7 +41,8 @@ public class AnnouncementMapper {
 				announcement.getAnnouncementCost(), UserMapper.toUserDto(announcement.getAnnouncementOwnerPublished()),
 				listofPictures, equipments, announcement.getAnnouncementMinStay(),
 				announcement.getAnnouncementMaxStay(), announcement.getAnnouncementFirstAvailableDate(),
-				announcement.getAnnouncementEndAvailableDate(), announcement.getAnnouncementGuestNumber());
+				announcement.getAnnouncementEndAvailableDate(), announcement.getAnnouncementGuestNumber(),
+				announcement.getComments().stream().map(c ->CommentMapper.toCommentDto(c)).collect(Collectors.toList()));
 	}
 
 	public static AnnouncementDetailsResponse toAnnouncementDetailsResponse(Announcement announcement) {
@@ -62,7 +63,8 @@ public class AnnouncementMapper {
 						.collect(Collectors.toList()),
 				announcement.getAnnouncementMinStay(), announcement.getAnnouncementMaxStay(),
 				announcement.getAnnouncementFirstAvailableDate(), announcement.getAnnouncementEndAvailableDate(),
-				announcement.getAnnouncementGuestNumber());
+				announcement.getAnnouncementGuestNumber(),
+				announcement.getComments().stream().map(c ->CommentMapper.toCommentDto(c)).collect(Collectors.toList()));
 	}
 
 	public static MyAnnouncementResponse toMyAnnouncementResponse(Announcement announcement) {
