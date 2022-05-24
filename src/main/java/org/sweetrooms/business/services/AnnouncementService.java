@@ -68,8 +68,8 @@ public class AnnouncementService {
 
 	}
 
-	public Announcement saveAnnouncement(AnnouncementRequest announcementIn, Long ownerId) {
-		Owner owner = this.ownerRepository.findByUserId(ownerId);
+	public Announcement saveAnnouncement(AnnouncementRequest announcementIn) {
+		Owner owner = (Owner) this.userService.getCurrentUser();
 		if (owner != null) {
 			Announcement announcement = new Announcement();
 			announcement.setAnnouncementOwnerPublished(owner);

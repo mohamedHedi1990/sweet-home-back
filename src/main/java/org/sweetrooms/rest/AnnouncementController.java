@@ -53,9 +53,9 @@ public class AnnouncementController {
 	@Operation(summary = "save announcement", description = "save a new announcement")
 	@PostMapping("")
 	@PreAuthorize("hasAnyAuthority({'OWNER'})")
-	public Announcement saveAnnouncement(@RequestParam("ownerId") Long ownerId,
+	public Announcement saveAnnouncement(
 			@RequestBody AnnouncementRequest announcement) {
-		return this.announcementService.saveAnnouncement(announcement, ownerId);
+		return this.announcementService.saveAnnouncement(announcement);
 	}
 
 	@Operation(summary = "delete announcement", description = "delete announcement by specific ID")
