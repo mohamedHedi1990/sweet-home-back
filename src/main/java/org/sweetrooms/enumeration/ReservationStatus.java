@@ -1,5 +1,5 @@
 package org.sweetrooms.enumeration;
 
 public enum ReservationStatus {
-    ACCEPTED,PENDING,REFUSED
+    ACCEPTED,PENDING,REFUSED,CANCELED
 }

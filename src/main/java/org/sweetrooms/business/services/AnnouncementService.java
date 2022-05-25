@@ -5,14 +5,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.AnnouncementMapper;
 import org.sweetrooms.business.mappers.EquipementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.request.SearchAnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.client.dtos.response.MyAnnouncementResponse;
+import org.sweetrooms.client.dtos.response.SearchAnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.enumeration.AnnouncementStatus;
 import org.sweetrooms.enumeration.RoleCode;
@@ -105,18 +109,40 @@ public class AnnouncementService {
 
 	public List<AnnouncementResponse> findAnnouncementsByCriteria(
 			AnnouncementSearchCriteria announcementSearchCriteria) {
-		return this.announcementRepository
+        System.out.println("announcementSearchCriteria : "+announcementSearchCriteria.toString());
+        List<AnnouncementResponse> list=this.announcementRepository
 				.findAllByAnnouncementAddressAddressCityCityLabelContainingAndAnnouncementFirstAvailableDateGreaterThanEqualAndAnnouncementEndAvailableDateLessThanEqualAndAnnouncementGuestNumberEquals(
 						announcementSearchCriteria.getAnnouncementCityLabel(),
 						announcementSearchCriteria.getAnnouncementStartDate(),
 						announcementSearchCriteria.getAnnouncementEndDate(), announcementSearchCriteria.getNbGuest())
 				.stream().map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
 				.collect(Collectors.toList());
+
+        return list;
 	}
 
 	public List<AnnouncementResponse> findLastAnnouncements() {
 		return announcementRepository.findTop12ByOrderByCreatedAtDesc().stream()
 				.map(announcement -> AnnouncementMapper.toAnnouncementResponse(announcement))
 				.collect(Collectors.toList());
+	}
+
+    public SearchAnnouncementResponse searchByAnnouncementRequest(SearchAnnouncementRequest announcementRequest) {
+        System.out.println(announcementRequest.toString());
+		Page<Announcement> announcements=this.announcementRepository
+				.findAllByAnnouncementSearchRequest(
+						announcementRequest.getSearchCriteria().getAnnouncementCityLabel(),
+                        announcementRequest.getSearchCriteria().getNbGuest(),
+						announcementRequest.getSearchCriteria().getAnnouncementStartDate(),
+						announcementRequest.getSearchCriteria().getAnnouncementEndDate(),
+                        PageRequest.of(announcementRequest.getCurrentPage()-1, announcementRequest.getSize()));
+
+		SearchAnnouncementResponse response=new SearchAnnouncementResponse();
+		response.setTotalItems(announcements.getTotalElements());
+
+		List<AnnouncementResponse> responses=announcements.getContent().stream().map(r -> AnnouncementMapper.toAnnouncementResponse(r)).collect(Collectors.toList());
+	    response.setAnnouncementResponseList(responses);
+
+	    return response;
 	}
 }
