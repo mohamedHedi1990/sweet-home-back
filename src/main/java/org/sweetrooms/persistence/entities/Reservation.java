@@ -31,7 +31,7 @@ public class Reservation {
     @Temporal(TemporalType.DATE)
     private Date reservationEndDate;
     @ManyToOne
-    private Lodger reservationLodger;
+    private User reservationUser;
     @ManyToOne
     private Announcement reservationAnnouncmeent;
 }

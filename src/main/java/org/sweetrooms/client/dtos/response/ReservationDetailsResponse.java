@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.sweetrooms.dtos.UserDto;
 import org.sweetrooms.enumeration.ReservationStatus;
+import org.sweetrooms.persistence.entities.Announcement;
 
 import java.util.Date;
 
@@ -25,5 +26,7 @@ public class ReservationDetailsResponse {
 
 
     private UserDto userDto;
+
+    private Announcement announcement;
 
 }

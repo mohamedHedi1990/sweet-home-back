@@ -8,7 +8,7 @@ public class ReservationMapper {
     public static ReservationDetailsResponse toReservationDetailsResponse(Reservation reservation){
         return new ReservationDetailsResponse(reservation.getReservationId(), reservation.getReservationStartDate(),
                 reservation.getReservationEndDate(), reservation.getReservationGuestNumber(),
-                reservation.getReservationStatus(), UserMapper.toUserDto(reservation.getReservationLodger()));
+                reservation.getReservationStatus(), UserMapper.toUserDto(reservation.getReservationUser()), reservation.getReservationAnnouncmeent());
     }
 
 }
