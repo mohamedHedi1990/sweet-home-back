@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.request.SearchAnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
 import org.sweetrooms.client.dtos.response.MyAnnouncementResponse;
+import org.sweetrooms.client.dtos.response.SearchAnnouncementResponse;
 import org.sweetrooms.dtos.AnnouncementSearchCriteria;
 import org.sweetrooms.persistence.entities.Announcement;
 
@@ -78,5 +80,11 @@ public class AnnouncementController {
 	@GetMapping("/my-announcements")
 	public List<MyAnnouncementResponse> findMyAnnouncements() {
 		return this.announcementService.getMyAnnoucements();
+	}
+
+	@PostMapping("/search-announcement")
+	public SearchAnnouncementResponse searchByAnnouncementRequest(
+			@RequestBody SearchAnnouncementRequest announcementRequest) {
+		return this.announcementService.searchByAnnouncementRequest(announcementRequest);
 	}
 }

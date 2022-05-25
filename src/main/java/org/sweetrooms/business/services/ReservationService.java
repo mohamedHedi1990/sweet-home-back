@@ -41,14 +41,15 @@ public class ReservationService {
 	}
 	
 	public void saveReservation(ReservationRequest reservationIn, Long announcementId) {
-		Lodger lodger=lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
+		//Lodger lodger=lodgerService.getLodgerById(SecurityUtil.getCurrentUserId());
+		User user= userService.getUserById(SecurityUtil.getCurrentUserId());
 		Announcement announcement = announcementService.getAnnouncementById(announcementId);
     	
 		Reservation reservation = new Reservation();
 		reservation.setReservationAnnouncmeent(announcement);
 		reservation.setReservationEndDate(reservationIn.getReservationEndDate());
 		reservation.setReservationGuestNumber(reservationIn.getReservationGuestNumber());
-		reservation.setReservationLodger(lodger);
+		reservation.setReservationUser(user);
 		reservation.setReservationStartDate(reservationIn.getReservationStartDate());
 		reservation.setReservationStatus(ReservationStatus.PENDING);
 		this.saveReservation(reservation);
@@ -65,9 +66,17 @@ public class ReservationService {
 
 		User user = userService.getCurrentUser();
 		if (user.getUserRole().getRoleCode() == RoleCode.LODGER) {
-			return this.reservationRepository.findByReservationLodger((Lodger) user);
+			return this.reservationRepository.findByReservationUser(user);
 		}
 		return null;
+	}
+
+	public List<ReservationDetailsResponse> getUserReservations() {
+
+		User user = userService.getCurrentUser();
+		List<Reservation> reservations=this.reservationRepository.findByReservationUser(user);
+		return reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
+
 	}
 
     public List<Reservation> findAllByAnnouncementId(Long announcementId) {
@@ -86,7 +95,7 @@ public class ReservationService {
 
 	public List<ReservationDetailsResponse> getReservationsAnnouncement(Long announcementId) {
 		List<Reservation> reservations=findAllByAnnouncementId(announcementId);
-
+		System.out.println(reservations);
 		return reservations.stream().map(r -> ReservationMapper.toReservationDetailsResponse(r)).collect(Collectors.toList());
 
 	}
@@ -94,6 +103,20 @@ public class ReservationService {
 	public void validateReservation(Long id) {
 		Reservation reservation=getReservationById(id);
 		reservation.setReservationStatus(ReservationStatus.ACCEPTED);
+
+		saveReservation(reservation);
+	}
+
+	public void refuseReservation(Long id) {
+		Reservation reservation=getReservationById(id);
+		reservation.setReservationStatus(ReservationStatus.REFUSED);
+
+		saveReservation(reservation);
+	}
+
+	public void cancelReservation(Long id) {
+		Reservation reservation=getReservationById(id);
+		reservation.setReservationStatus(ReservationStatus.CANCELED);
 
 		saveReservation(reservation);
 	}

@@ -107,4 +107,21 @@ public class ReservationController {
 
 	}
 
+	@PutMapping("/refuse")
+	public void refuseReservation(@RequestBody Long id){
+
+		this.reservationService.refuseReservation(id);
+
+	}
+
+	@GetMapping("/user-reservation")
+	public List<ReservationDetailsResponse> getUserReservations(){
+		return this.reservationService.getUserReservations();
+	}
+
+	@PutMapping("/cancel")
+	public void cancelReservation(@RequestBody Long id){
+		this.reservationService.cancelReservation(id);
+	}
+
 }
