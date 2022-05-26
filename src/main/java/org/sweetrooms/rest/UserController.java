@@ -38,8 +38,9 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	SecurityService securityService;
-@Autowired
-EmailService mailSender;
+	@Autowired
+	EmailService mailSender;
+
 	@Operation(summary = "Get users", description = "Provides all available users list")
 	@GetMapping("")
 	public List<User> getAllUsers() {
@@ -69,50 +70,50 @@ EmailService mailSender;
 	public UserDetailsResponse getUserInfo() {
 		return this.userService.getUserInfo();
 	}
-	
+
 	@Operation(summary = "Update user information")
 	@PatchMapping("/update-user")
-	public void patchUser(@RequestBody UserRequest userRequest){
+	public void patchUser(@RequestBody UserRequest userRequest) {
 		this.userService.patchUser(userRequest);
 	}
-	
-	@PostMapping("/resetPassword")
-	public ResponseEntity<String> resetPassword(
-			@RequestBody String userEmail) {
-	    User user = userService.findUserByEmail(userEmail);
-	    if (user == null) {
-	    	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }else
-	    {
-	    	securityService.forgetPassword(user);
-	    }
-	    
-	   return new ResponseEntity<>(HttpStatus.OK);
+
+	@PostMapping("/request-reset-password")
+	public ResponseEntity<String> resetPassword(@RequestBody String userEmail) {
+		User user = userService.findUserByEmail(userEmail);
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			securityService.forgetPassword(user);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	@GetMapping("/changePassword")
-	public ResponseEntity<String> showChangePasswordPage( @RequestParam("token") String token) {
-	    String result = securityService.validatePasswordResetToken(token);
-	    if(result != null) {
-	    	return new ResponseEntity<>(HttpStatus.OK);
-	    } else {
-	    	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
+
+	@GetMapping("/verify-code-password")
+	public ResponseEntity<String> showChangePasswordPage(@RequestParam("token") String token) {
+		String result = securityService.validatePasswordResetToken(token);
+		if (result != null) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
-	@PostMapping("/savePassword")
+
+	@PostMapping("/modify-password")
 	public ResponseEntity<String> savePassword(@Valid PasswordDtoRequest passwordDto) {
 
-	    String result = securityService.validatePasswordResetToken(passwordDto.getToken());
+		String result = securityService.validatePasswordResetToken(passwordDto.getToken());
 
-	    if(result != null) {
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
+		if (result != null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
-	    User user = securityService.getUserByPasswordResetToken(passwordDto.getToken()).orElse(null);
-	    if(user !=null) {
-	    	userService.changeUserPassword(user, passwordDto.getNewPassword());
-	    	  return new ResponseEntity<>(HttpStatus.OK);
-	    } else {
-	    	return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-	    }
+		User user = securityService.getUserByPasswordResetToken(passwordDto.getToken()).orElse(null);
+		if (user != null) {
+			userService.changeUserPassword(user, passwordDto.getNewPassword());
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
 	}
 }

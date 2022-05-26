@@ -24,38 +24,39 @@ public class SecurityService {
 	private UserRepository userRepository;
 	@Autowired
 	private EmailService mailSender;
-	public void createPasswordResetTokenForUser(User user, String token) {
-	    PasswordResetToken myToken = new PasswordResetToken(token, user);
-	    this.passwordTokenRepository.save(myToken);
-	}
-	
-	public String validatePasswordResetToken(String token) {
-	    final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
 
-	    return !isTokenFound(passToken) ? "invalidToken"
-	            : isTokenExpired(passToken) ? "expired"
-	            : null;
+	public void createPasswordResetTokenForUser(User user, String token) {
+		PasswordResetToken myToken = new PasswordResetToken(token, user);
+		this.passwordTokenRepository.save(myToken);
 	}
-public boolean forgetPassword(User user)
-{
-   
-    String token = UUID.randomUUID().toString();
-    createPasswordResetTokenForUser(user, token);
-   Map<String,String> map=new HashMap<>();
-   map.put("code", token);
-    this.mailSender.sendMessage(MailingConstants.FORGOT_PASSWORD_CONTEXT,user.getUserFirstName(), user.getUserEmail(),map);
-return true;
-}
+
+	public String validatePasswordResetToken(String token) {
+		final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+
+		return !isTokenFound(passToken) ? "invalidToken" : isTokenExpired(passToken) ? "expired" : null;
+	}
+
+	public boolean forgetPassword(User user) {
+
+		String token = UUID.randomUUID().toString();
+		createPasswordResetTokenForUser(user, token);
+		Map<String, String> map = new HashMap<>();
+		map.put("code", token);
+		this.mailSender.sendMessage(MailingConstants.FORGOT_PASSWORD_CONTEXT, user.getUserFirstName(),
+				user.getUserEmail(), map);
+		return true;
+	}
+
 	private boolean isTokenFound(PasswordResetToken passToken) {
-	    return passToken != null;
+		return passToken != null;
 	}
-	
 
 	private boolean isTokenExpired(PasswordResetToken passToken) {
-	    final Calendar cal = Calendar.getInstance();
-	    return passToken.getExpiryDate().before(cal.getTime());
+		final Calendar cal = Calendar.getInstance();
+		return passToken.getExpiryDate().before(cal.getTime());
 	}
-	    public Optional<User> getUserByPasswordResetToken(final String token) {
-	        return Optional.ofNullable(passwordTokenRepository.findByToken(token) .getUser());
-	    }
+
+	public Optional<User> getUserByPasswordResetToken(final String token) {
+		return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
+	}
 }
