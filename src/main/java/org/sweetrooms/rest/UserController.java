@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.sweetrooms.business.services.SecurityService;
 import org.sweetrooms.business.services.UserService;
 import org.sweetrooms.business.services.email.EmailService;
 import org.sweetrooms.client.dtos.request.PasswordDtoRequest;
 import org.sweetrooms.client.dtos.request.UserRequest;
 import org.sweetrooms.client.dtos.response.UserDetailsResponse;
+import org.sweetrooms.enumeration.TokenStatus;
 import org.sweetrooms.persistence.entities.User;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,8 +36,7 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	@Autowired
-	SecurityService securityService;
+
 	@Autowired
 	EmailService mailSender;
 
@@ -79,11 +78,12 @@ public class UserController {
 
 	@PostMapping("/request-reset-password")
 	public ResponseEntity<String> resetPassword(@RequestBody String userEmail) {
+        System.out.println("Email : "+userEmail);
 		User user = userService.findUserByEmail(userEmail);
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			securityService.forgetPassword(user);
+			userService.forgetPassword(user);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -91,8 +91,8 @@ public class UserController {
 
 	@GetMapping("/verify-code-password")
 	public ResponseEntity<String> showChangePasswordPage(@RequestParam("token") String token) {
-		String result = securityService.validatePasswordResetToken(token);
-		if (result != null) {
+		TokenStatus result = userService.validatePasswordResetToken(token);
+		if (result == TokenStatus.VALID) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -100,17 +100,17 @@ public class UserController {
 	}
 
 	@PostMapping("/modify-password")
-	public ResponseEntity<String> savePassword(@Valid PasswordDtoRequest passwordDto) {
+	public ResponseEntity<String> savePassword(@RequestBody @Valid PasswordDtoRequest passwordDto) {
 
-		String result = securityService.validatePasswordResetToken(passwordDto.getToken());
+		TokenStatus result = userService.validatePasswordResetToken(passwordDto.getToken());
 
-		if (result != null) {
+		if (result != TokenStatus.VALID) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		User user = securityService.getUserByPasswordResetToken(passwordDto.getToken()).orElse(null);
+		User user = userService.getUserByPasswordResetToken(passwordDto.getToken()).orElse(null);
 		if (user != null) {
-			userService.changeUserPassword(user, passwordDto.getNewPassword());
+			userService.changeUserPassword(user, passwordDto.getConfirmedPassword());
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -49,7 +50,11 @@ public class EmailSender {
 		String htmlContent = this.emailTemplateEngine.process(template, ctx);
 		message.setText(htmlContent, isHtml);
 
-		this.mailSender.send(mimeMessage);
+		try {
+			this.mailSender.send(mimeMessage);
+		} catch (MailSendException e) {
+			e.printStackTrace();
+		}
 
 	}
 

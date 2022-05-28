@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PasswordDtoRequest {
 
-    private String oldPassword;
+    private String password;
 
     private  String token;
 
-    private String newPassword;
+    private String confirmedPassword;
 }
