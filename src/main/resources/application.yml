@@ -8,7 +8,7 @@ spring:
         suffix: .html
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/sweetroomsv2?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Africa/Tunis&useLegacyDatetimeCode=false
+        url: jdbc:mysql://localhost:3306/sweetrooms?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Africa/Tunis&useLegacyDatetimeCode=false
         username: root
         password: root
     jpa:
@@ -36,8 +36,8 @@ spring:
     mail:
         host:  smtp.gmail.com
         port: 587
-        username:
-        password:
+        username: sweetroomapp@gmail.com
+        password: Azerty1230
         default-encoding: UTF-8
         properties:
             mail:
@@ -64,4 +64,4 @@ sweetrooms:
         name: SWEET ROOM
         base-url: http://localhost:4200/
 file:
-  upload-dir: /root/sweet-room/files
+  upload-dir: C:/Users/msi/Documents/imcoding/sweet-room/files
