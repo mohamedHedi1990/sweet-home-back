@@ -12,6 +12,7 @@ import org.sweetrooms.business.mappers.AddressMapper;
 import org.sweetrooms.business.mappers.AnnouncementMapper;
 import org.sweetrooms.business.mappers.EquipementMapper;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.request.AnnouncementUpdateRequest;
 import org.sweetrooms.client.dtos.request.SearchAnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
@@ -75,9 +76,7 @@ public class AnnouncementService {
 	public Announcement saveAnnouncement(AnnouncementRequest announcementIn) {
 		Owner owner = (Owner) this.userService.getCurrentUser();
 		if (owner != null) {
-			System.out.println(announcementIn.toString());
 			Announcement announcement = new Announcement();
-			announcement.setAnnouncementId(announcementIn.getAnnouncementId());
 			announcement.setAnnouncementOwnerPublished(owner);
 			announcement.setAnnouncementAddress(AddressMapper.toAddress(announcementIn.getAnnouncementAddress()));
 			announcement.setAnnouncementAuthorizedExtraGuests(announcementIn.getAnnouncementAuthorizedExtraGuests());
@@ -100,8 +99,39 @@ public class AnnouncementService {
 			announcement.setAnnouncementType(announcementIn.getAnnouncementType());
 			announcement.setEquipments(announcementIn.getEquipments().stream()
 					.map(equipment -> EquipementMapper.toEquipement(equipment)).collect(Collectors.toList()));
-			System.out.println("adr to save : "+announcement.getAnnouncementAddress());
 			return this.announcementRepository.save(announcement);
+		}
+		return null;
+	}
+
+	public Announcement updateAnnouncement(AnnouncementUpdateRequest announcementIn) {
+		Owner owner = (Owner) this.userService.getCurrentUser();
+		Announcement existingAnn=announcementRepository.findById(announcementIn.getAnnouncementId()).get();
+		System.out.println(owner.equals(existingAnn.getAnnouncementOwnerPublished()));
+		if (owner != null && existingAnn!=null && owner.equals(existingAnn.getAnnouncementOwnerPublished())) {
+			existingAnn.setAnnouncementOwnerPublished(owner);
+			existingAnn.setAnnouncementAddress(AddressMapper.toAddress(announcementIn.getAnnouncementAddress()));
+			existingAnn.setAnnouncementAuthorizedExtraGuests(announcementIn.getAnnouncementAuthorizedExtraGuests());
+			existingAnn.setAnnouncementBathRoomNumber(announcementIn.getAnnouncementBathRoomNumber());
+			existingAnn.setAnnouncementBedNumber(announcementIn.getAnnouncementBedNumber());
+			existingAnn.setAnnouncementBedType(announcementIn.getAnnouncementBedType());
+			existingAnn.setAnnouncementCost(announcementIn.getAnnouncementCost());
+			existingAnn.setAnnouncementCreatedDate(new Date());
+			existingAnn.setAnnouncementDescription(announcementIn.getAnnouncementDescription());
+			existingAnn.setAnnouncementEndAvailableDate(announcementIn.getAnnouncementEndAvailableDate());
+			existingAnn.setAnnouncementFirstAvailableDate(announcementIn.getAnnouncementFirstAvailableDate());
+			existingAnn.setAnnouncementGuestNumber(announcementIn.getAnnouncementGuestNumber());
+			existingAnn.setAnnouncementMaxStay(announcementIn.getAnnouncementMaxStay());
+			existingAnn.setAnnouncementMinStay(announcementIn.getAnnouncementMinStay());
+			existingAnn.setAnnouncementRoomNumber(announcementIn.getAnnouncementRoomNumber());
+			existingAnn.setAnnouncementRules(announcementIn.getAnnouncementRules());
+			existingAnn.setAnnouncementStatus(AnnouncementStatus.CREATED);
+			existingAnn.setAnnouncementSummary(announcementIn.getAnnouncementSummary());
+			existingAnn.setAnnouncementTitle(announcementIn.getAnnouncementTitle());
+			existingAnn.setAnnouncementType(announcementIn.getAnnouncementType());
+			existingAnn.setEquipments(announcementIn.getEquipments().stream()
+					.map(equipment -> EquipementMapper.toEquipement(equipment)).collect(Collectors.toList()));
+			return this.announcementRepository.save(existingAnn);
 		}
 		return null;
 	}

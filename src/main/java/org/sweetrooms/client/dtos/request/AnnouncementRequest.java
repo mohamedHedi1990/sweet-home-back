@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @ToString
 public class AnnouncementRequest {
 
-	private Long announcementId;
 	private String announcementDescription;
 	private String announcementTitle;
 	private AnnouncementType announcementType;
