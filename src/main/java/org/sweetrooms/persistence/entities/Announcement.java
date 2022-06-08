@@ -54,7 +54,7 @@ public class Announcement extends AuditableSql implements Serializable{
     private Integer announcementNumberDislike = 0;
     @Enumerated(EnumType.STRING)
     private AnnouncementType announcementType;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address announcementAddress;
     private Integer announcementGuestNumber;
     private Integer announcementBedNumber;

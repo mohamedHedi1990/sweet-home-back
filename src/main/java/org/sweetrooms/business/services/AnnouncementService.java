@@ -75,7 +75,9 @@ public class AnnouncementService {
 	public Announcement saveAnnouncement(AnnouncementRequest announcementIn) {
 		Owner owner = (Owner) this.userService.getCurrentUser();
 		if (owner != null) {
+			System.out.println(announcementIn.toString());
 			Announcement announcement = new Announcement();
+			announcement.setAnnouncementId(announcementIn.getAnnouncementId());
 			announcement.setAnnouncementOwnerPublished(owner);
 			announcement.setAnnouncementAddress(AddressMapper.toAddress(announcementIn.getAnnouncementAddress()));
 			announcement.setAnnouncementAuthorizedExtraGuests(announcementIn.getAnnouncementAuthorizedExtraGuests());
@@ -98,6 +100,7 @@ public class AnnouncementService {
 			announcement.setAnnouncementType(announcementIn.getAnnouncementType());
 			announcement.setEquipments(announcementIn.getEquipments().stream()
 					.map(equipment -> EquipementMapper.toEquipement(equipment)).collect(Collectors.toList()));
+			System.out.println("adr to save : "+announcement.getAnnouncementAddress());
 			return this.announcementRepository.save(announcement);
 		}
 		return null;

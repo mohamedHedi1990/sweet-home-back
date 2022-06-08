@@ -3,6 +3,7 @@ package org.sweetrooms.client.dtos.request;
 import java.util.Date;
 import java.util.List;
 
+import lombok.ToString;
 import org.sweetrooms.dtos.AddressDto;
 import org.sweetrooms.dtos.EquipementDto;
 import org.sweetrooms.enumeration.AnnouncementType;
@@ -15,8 +16,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AnnouncementRequest {
 
+	private Long announcementId;
 	private String announcementDescription;
 	private String announcementTitle;
 	private AnnouncementType announcementType;
