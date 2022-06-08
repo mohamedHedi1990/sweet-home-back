@@ -101,14 +101,14 @@ public class ReservationController {
 	}
 
 	@PutMapping("/validate")
-    public void validateReservation(@RequestBody Long id){
+    public void validateReservation(@RequestParam("reservationId") Long id){
 
 		this.reservationService.validateReservation(id);
 
 	}
 
 	@PutMapping("/refuse")
-	public void refuseReservation(@RequestBody Long id){
+	public void refuseReservation(@RequestParam("reservationId") Long id){
 
 		this.reservationService.refuseReservation(id);
 
@@ -120,7 +120,7 @@ public class ReservationController {
 	}
 
 	@PutMapping("/cancel")
-	public void cancelReservation(@RequestBody Long id){
+	public void cancelReservation(@RequestParam("reservationId") Long id){
 		this.reservationService.cancelReservation(id);
 	}
 
