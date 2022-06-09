@@ -5,17 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.client.dtos.request.AnnouncementRequest;
+import org.sweetrooms.client.dtos.request.AnnouncementUpdateRequest;
 import org.sweetrooms.client.dtos.request.SearchAnnouncementRequest;
 import org.sweetrooms.client.dtos.response.AnnouncementDetailsResponse;
 import org.sweetrooms.client.dtos.response.AnnouncementResponse;
@@ -58,6 +51,14 @@ public class AnnouncementController {
 	public Announcement saveAnnouncement(
 			@RequestBody AnnouncementRequest announcement) {
 		return this.announcementService.saveAnnouncement(announcement);
+	}
+
+	@Operation(summary = "save announcement", description = "save a new announcement")
+	@PutMapping("")
+	@PreAuthorize("hasAnyAuthority({'OWNER'})")
+	public Announcement updateAnnouncement(
+			@RequestBody AnnouncementUpdateRequest announcement) {
+		return this.announcementService.updateAnnouncement(announcement);
 	}
 
 	@Operation(summary = "delete announcement", description = "delete announcement by specific ID")
