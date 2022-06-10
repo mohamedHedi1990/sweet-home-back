@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.sweetrooms.enumeration.ReservationStatus;
 import org.sweetrooms.enumeration.RoleCode;
 import org.sweetrooms.persistence.entities.*;
@@ -16,6 +17,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import java.util.Date;
 
 @SpringBootApplication
+@EnableAsync
 public class SweetroomsApplication implements CommandLineRunner {
 	@Autowired
 	private RoleRepository roleRepository;

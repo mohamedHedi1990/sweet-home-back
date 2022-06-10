@@ -105,12 +105,15 @@ public class UserService {
 	public TokenStatus validatePasswordResetToken(String token) {
 		final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
 
-		return !isTokenFound(passToken) ? TokenStatus.INVALID : isTokenExpired(passToken) ? TokenStatus.EXPIRED : TokenStatus.VALID;
+		//return !isTokenFound(passToken) ? TokenStatus.INVALID : isTokenExpired(passToken) ? TokenStatus.EXPIRED : TokenStatus.VALID;
+		return !isTokenFound(passToken) ? TokenStatus.INVALID :  TokenStatus.VALID;
+
 	}
 
 	public boolean forgetPassword(User user) {
 
 		String token = UUID.randomUUID().toString();
+		System.out.println("token reset password " + token);
 		createPasswordResetTokenForUser(user, token);
 		Map<String, String> map = new HashMap<>();
 		map.put("code", token);
@@ -123,10 +126,10 @@ public class UserService {
 		return passToken != null;
 	}
 
-	private boolean isTokenExpired(PasswordResetToken passToken) {
+	/*private boolean isTokenExpired(PasswordResetToken passToken) {
 		final Calendar cal = Calendar.getInstance();
 		return passToken.getExpiryDate().before(cal.getTime());
-	}
+	}*/
 
 	public Optional<User> getUserByPasswordResetToken(final String token) {
 		return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());

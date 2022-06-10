@@ -48,6 +48,7 @@ spring:
                     writetimeout: 25000
                     starttls:
                         enabled: true
+            app_name: SWEET ROOM
 
 
 springdoc:
@@ -64,4 +65,4 @@ sweetrooms:
         name: SWEET ROOM
         base-url: http://localhost:4200/
 file:
-  upload-dir: /root/sweet-room/files
+  upload-dir: C:\Users\msi\Documents\imcoding\sweet-room\files
