@@ -65,4 +65,4 @@ sweetrooms:
         name: SWEET ROOM
         base-url: http://localhost:4200/
 file:
-  upload-dir: C:\Users\msi\Documents\imcoding\sweet-room\files
+  upload-dir: /root/sweet-room/files
