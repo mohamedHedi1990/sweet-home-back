@@ -48,6 +48,7 @@ spring:
                     writetimeout: 25000
                     starttls:
                         enabled: true
+            app_name: SWEET ROOM
 
 
 springdoc:

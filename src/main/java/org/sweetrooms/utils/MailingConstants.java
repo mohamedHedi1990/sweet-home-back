@@ -13,7 +13,7 @@ public class MailingConstants {
 	public static final String CODE = "code";
 	
 	//Sujets:
-	public static final String FORGOT_PASSWORD_SUBECT = "";
+	public static final String FORGOT_PASSWORD_SUBECT = "Reset password";
 	
 	//Titres
 	public static final String FORGOT_PASSWORD_TITLE = "";
