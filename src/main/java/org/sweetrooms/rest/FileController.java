@@ -130,17 +130,12 @@ public class FileController {
 	@CrossOrigin
 	@PostMapping("delete-announce-picture")
 	public void deleteAnnouncementPictures(@RequestParam Long announcementId, @RequestParam String mediaUrl){
-		System.out.println("img to remove "+mediaUrl);
 		Owner owner = (Owner) this.userService.getCurrentUser();
 		Announcement existingAnn=announcementService.getAnnouncementById(announcementId);
-		System.out.println(owner.equals(existingAnn.getAnnouncementOwnerPublished()));
 		if (owner != null && existingAnn!=null && owner.equals(existingAnn.getAnnouncementOwnerPublished()) && !existingAnn.getMedias().isEmpty()) {
 			Optional<Media>  existingMedia=existingAnn.getMedias().stream().filter(m -> m.getMediaUrl().equals(mediaUrl)).findFirst();
-			System.out.println("Media to remove : "+existingMedia.get().toString());
 			if(existingMedia.get() != null) {
-
 				existingAnn.getMedias().removeIf(url -> url.getMediaUrl().equals(mediaUrl));
-				System.out.println("After removing : "+existingAnn.getMedias());
 
 				announcementService.save(existingAnn);
 			}
@@ -150,7 +145,6 @@ public class FileController {
 		}
 
 
-		//announcementService.save(existingAnn);
 	}
 
 }
