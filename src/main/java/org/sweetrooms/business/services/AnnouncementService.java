@@ -105,10 +105,8 @@ public class AnnouncementService {
 	}
 
 	public Announcement updateAnnouncement(AnnouncementUpdateRequest announcementIn) {
-		System.out.println("AnnouncementGuestNumber : "+announcementIn.getAnnouncementGuestNumber());
 		Owner owner = (Owner) this.userService.getCurrentUser();
 		Announcement existingAnn=announcementRepository.findById(announcementIn.getAnnouncementId()).get();
-		System.out.println(owner.equals(existingAnn.getAnnouncementOwnerPublished()));
 		if (owner != null && existingAnn!=null && owner.equals(existingAnn.getAnnouncementOwnerPublished())) {
 			existingAnn.setAnnouncementOwnerPublished(owner);
 			existingAnn.setAnnouncementAddress(AddressMapper.toAddress(announcementIn.getAnnouncementAddress()));
