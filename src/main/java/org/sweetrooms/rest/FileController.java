@@ -2,7 +2,9 @@ package org.sweetrooms.rest;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.sweetrooms.business.mappers.AnnouncementMapper;
 import org.sweetrooms.business.services.AnnouncementService;
 import org.sweetrooms.business.services.MediaService;
 import org.sweetrooms.business.services.UserService;
@@ -26,6 +29,7 @@ import org.sweetrooms.business.services.files.DBFileStorageService;
 import org.sweetrooms.enumeration.MediaContext;
 import org.sweetrooms.persistence.entities.Announcement;
 import org.sweetrooms.persistence.entities.Media;
+import org.sweetrooms.persistence.entities.Owner;
 import org.sweetrooms.persistence.entities.User;
 
 @RequestMapping("/file")
@@ -121,6 +125,26 @@ public class FileController {
 
 		}
 		userService.saveUser(user);
+	}
+
+	@CrossOrigin
+	@PostMapping("delete-announce-picture")
+	public void deleteAnnouncementPictures(@RequestParam Long announcementId, @RequestParam String mediaUrl){
+		Owner owner = (Owner) this.userService.getCurrentUser();
+		Announcement existingAnn=announcementService.getAnnouncementById(announcementId);
+		if (owner != null && existingAnn!=null && owner.equals(existingAnn.getAnnouncementOwnerPublished()) && !existingAnn.getMedias().isEmpty()) {
+			Optional<Media>  existingMedia=existingAnn.getMedias().stream().filter(m -> m.getMediaUrl().equals(mediaUrl)).findFirst();
+			if(existingMedia.get() != null) {
+				existingAnn.getMedias().removeIf(url -> url.getMediaUrl().equals(mediaUrl));
+
+				announcementService.save(existingAnn);
+			}
+
+
+
+		}
+
+
 	}
 
 }
